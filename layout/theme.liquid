@@ -7,6 +7,10 @@
   <meta name="description" content="{{ page_description | escape }}">
   <link rel="canonical" href="{{ canonical_url }}">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  {%- liquid
+    render 'vite-tag' with 'main.css'
+    render 'vite-tag' with 'main.js'
+  -%}
   {{ content_for_header }} <!-- Header hook for plugins -->
   {{ 'application.css' | asset_url | stylesheet_tag }}
   {{ 'application.js' | asset_url | script_tag }}
