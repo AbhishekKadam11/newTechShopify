@@ -24,6 +24,11 @@
 
     <meta name="description" content="{{ 'gift_cards.issued.subtext' | t }}">
 
+    {%- liquid
+      render 'vite-tag' with 'main.css'
+      render 'vite-tag' with 'main.js'
+    -%}
+    
     {{ content_for_header }}
 
     {%- liquid

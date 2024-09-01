@@ -1,11 +1,9 @@
-import { defineConfig } from 'vite'
-import shopify from 'vite-plugin-shopify'
+import { defineConfig } from 'vite';
+import shopify from 'vite-plugin-shopify';
 
 export default defineConfig({
-  plugins: [
-    shopify()
-  ],
+  plugins: [shopify()],
   build: {
-    emptyOutDir: false
-  }
-})
+    emptyOutDir: false,
+  },
+});
