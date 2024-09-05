@@ -3182,6 +3182,9 @@
               "options__3": {
                 "label": "Right"
               }
+            },
+            "enable_page_width": {
+              "label": "Enable page width"
             }
           }
         }
