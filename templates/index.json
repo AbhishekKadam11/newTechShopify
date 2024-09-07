@@ -10,7 +10,7 @@
             "heading": "",
             "heading_size": "h2",
             "subheading": "",
-            "button_label": "View More",
+            "button_label": "Explore",
             "link": "",
             "button_style_secondary": false,
             "box_align": "bottom-right",
@@ -25,25 +25,46 @@
         "slide_Thif3N": {
           "type": "slide",
           "settings": {
-            "heading": "Image slide",
+            "image": "shopify:\/\/shop_images\/2.jpg",
+            "heading": "",
             "heading_size": "h1",
-            "subheading": "Tell your brand's story through images",
-            "button_label": "Button label",
+            "subheading": "",
+            "button_label": "Explore",
             "link": "",
             "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": true,
+            "box_align": "bottom-left",
+            "show_text_box": false,
             "enable_page_width": true,
             "text_alignment": "center",
             "image_overlay_opacity": 0,
             "color_scheme": "",
             "text_alignment_mobile": "center"
           }
+        },
+        "slide_gzBcDX": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/3.jpg",
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "Explore",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "bottom-right",
+            "show_text_box": true,
+            "enable_page_width": true,
+            "text_alignment": "right",
+            "image_overlay_opacity": 0,
+            "color_scheme": "scheme-1",
+            "text_alignment_mobile": "center"
+          }
         }
       },
       "block_order": [
         "slide_EdgwxT",
-        "slide_Thif3N"
+        "slide_Thif3N",
+        "slide_gzBcDX"
       ],
       "settings": {
         "layout": "full_bleed",
