@@ -31,7 +31,7 @@
       "settings": {
         "logo_position": "middle-left",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
@@ -42,7 +42,17 @@
         "mobile_logo_position": "center",
         "margin_bottom": 0,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 20,
+        "levels": 2,
+ 
+          "links":[
+            {
+              "title": "abc",
+              "link": "",
+              "handle": "126"
+            }
+          ]
+        
       }
     }
   },

@@ -28,8 +28,5 @@
     "vite": "^5.4.3",
     "vite-plugin-shopify": "^3.0.1"
   },
-  "dependencies": {
-    "vite-plugin-page-reload": "^0.2.0"
-  },
   "type": "module"
 }
