@@ -18,6 +18,9 @@
   },
   "author": "Abhishek.k",
   "license": "ISC",
+  "dependencies": {
+    "vue": "^3.5.4"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "concurrently": "^8.2.2",
