@@ -36,13 +36,13 @@ const webpackJS = {
   mode: mode,
   resolve: {
     alias: {
-      "@vue": path.resolve(__dirname, "src/vue"),
+      "@vue": path.resolve(__dirname, "src/components"),
       "@root": path.resolve(__dirname)
     }
   },
-  entry: getEntries("src/scripts/*.js"),
+  entry: getEntries("src/entrypoints/*.js"),
   output: {
-    path: path.join(__dirname, "src/assets"),
+    path: path.join(__dirname, "./assets"),
     filename: "[name].js"
   },
 
@@ -73,7 +73,7 @@ const webpackJS = {
           {
             loader: "postcss-loader",
             options: {
-              config: { path: path.resolve(__dirname, "postcss.config.js") }
+              config: { path: path.resolve(__dirname, "postcss.config.cjs") }
             }
           }
         ]

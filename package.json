@@ -19,7 +19,10 @@
   "author": "Abhishek.k",
   "license": "ISC",
   "dependencies": {
-    "vue": "^3.5.4"
+    "document-register-element": "^1.14.10",
+    "vue": "^3.5.4",
+    "vuex": "^4.1.0",
+    "vue-custom-element": "^3.2.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
