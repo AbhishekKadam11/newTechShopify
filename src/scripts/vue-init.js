@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import Quotes from '../components/productDescription.vue';
 
 export class appInitializer {
     constructor(id, data) {
+        console.log("vue loaded");
         this._sectionId = id;
         this._appType = 'vue-app';
         this._appInstance = null;
