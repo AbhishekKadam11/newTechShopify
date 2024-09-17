@@ -86,6 +86,7 @@ const init = (option = {}) => {
 }
 
 const loadConfig = (nameAliase) => {
+    console.log("nameAliase", nameAliase)
     if (!nameAliase in configCache) {
         configCache[nameAliase] = import(`@components/${nameAliase}`)
             .then(({ default: Instance }) => Instance)
