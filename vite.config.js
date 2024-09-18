@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import shopify from 'vite-plugin-shopify';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import http from "https";
 
 const proxyOptions = {
   target: `http://127.0.0.1:${process.env.BACKEND_PORT || 9292}`,
@@ -37,26 +38,42 @@ export default defineConfig({
     },
     extensions: ['.vue', '.js', '.json']
   },
-  plugins: [
-    shopify({
-      sourceCodeDir: "src",
-      entrypointsDir: 'src/entrypoints',
-      snippetFile: "vite.liquid",
-    }),
-    vue()
-  ],
   build: {
     emptyOutDir: false,
   },
   server: {
-    host: 'localhost',
-    port: process.env.FRONTEND_PORT || 9292,
-    hmr: hmrConfig,
+    // host: 'localhost',
+    // port: process.env.FRONTEND_PORT || 9292,
+    // hmr: hmrConfig,
+    https: false,
+    strictPort: true,
+    open: true,
     proxy: {
-      '^/(\\?.*)?$': proxyOptions,
-      '^/frontend(/|(\\?.*)?$)': proxyOptions,
-      '^/api(/|(\\?.*)?$)': proxyOptions
+      '^/(?!(@(.*)|node_modules|src|styles)/)': {
+        target: 'http://127.0.0.1:9292',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/frontend\/entrypoints\/*/, ''),
+        // secure: false,
+        // agent: new http.Agent()
+      },
     }
-  }
+  },
+  plugins: [
+    shopify({
+      themeRoot: './',
+      sourceCodeDir: "src",
+      entrypointsDir: 'src/entrypoints',
+      additionalEntrypoints: ['src/entrypoints/*.js'],
+      snippetFile: "vite-tag.liquid",
+    }),
+    vue({
+      template:{
+        compilerOptions:{
+       
+        }
+      }
+    })
+  ],
+  
   
 });
