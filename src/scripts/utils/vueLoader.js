@@ -91,7 +91,7 @@ const loadConfig = (nameAliase) => {
         configCache[nameAliase] = import(`@components/${nameAliase}`)
             .then(({ default: Instance }) => Instance)
             .catch(err => {
-                console.lof(err);
+                console.log(err);
                 return null;
             });
     }
@@ -101,6 +101,7 @@ const loadConfig = (nameAliase) => {
 class vueAppInitalize extends HTMLElement {
     async connectedCallback() {
         const { uid, vue: alias } = this.dataset;
+        console.log("alias=>", alias)
         if (!uid) {
             const config = await loadConfig(alias);
             config.name = alias;
