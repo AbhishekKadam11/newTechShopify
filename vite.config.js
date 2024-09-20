@@ -44,15 +44,17 @@ export default defineConfig({
       themeRoot: './',
       sourceCodeDir: "src",
       entrypointsDir: 'src/entrypoints',
-      additionalEntrypoints: ['src/entrypoints/*.js'],
+      additionalEntrypoints: ['src/entrypoints/*.js',
+        'src/scripts/utils/*.js'
+      ],
       snippetFile: "vite-tag.liquid",
     }),
     vue({
       template:{
         compilerOptions:{
-       
-        }
-      }
+          // isCustomElement: tag => tag.startsWith('data-vue'),
+        },
+      },
     })
   ],
   

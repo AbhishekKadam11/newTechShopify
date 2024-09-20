@@ -87,20 +87,21 @@ const init = (option = {}) => {
 
 const loadConfig = (nameAliase) => {
     console.log("nameAliase", nameAliase)
-    if (!nameAliase in configCache) {
+    // if (!nameAliase in configCache) {
         configCache[nameAliase] = import(`@components/${nameAliase}`)
             .then(({ default: Instance }) => Instance)
             .catch(err => {
                 console.log(err);
                 return null;
             });
-    }
+    // }
     return configCache[nameAliase];
 }
 
 class vueAppInitalize extends HTMLElement {
     async connectedCallback() {
         const { uid, vue: alias } = this.dataset;
+        // debugger;
         console.log("alias=>", alias)
         if (!uid) {
             const config = await loadConfig(alias);
@@ -108,6 +109,7 @@ class vueAppInitalize extends HTMLElement {
             const app = init(config);
             const { _uid: instanceId } = app;
             this.dataset.uid = instanceId;
+            // app.config.delimiters = ['{%', '%}']
             app.mount(this);
         }
     }
