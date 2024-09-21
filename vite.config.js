@@ -5,15 +5,22 @@ import path from 'path';
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import dynamicImport from 'vite-plugin-dynamic-import';
 
+const liquidNoUpdate = () => ({
+  name: 'liquid-no-hot-update',
+  handleHotUpdate({ file }) {
+    return (file.endsWith('.liquid')) ? [] : null;
+  },
+})
 
 export default defineConfig({
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm-bundler.js',
+      'focus-trap-vue$': 'focus-trap-vue/dist/index.esm.js',
       '@utils': path.resolve(__dirname, './src/scripts/utils'),
       '@components': path.resolve(__dirname, './src/components'),
     },
-    extensions: ['.vue', '.js', '.json']
+    extensions: ['.vue', '.js', '.json', '.mjs']
   },
   build: {
     emptyOutDir: false,
@@ -33,12 +40,11 @@ export default defineConfig({
       '^/(?!(@(.*)|node_modules|src|styles)/)': {
         target: 'http://127.0.0.1:9292',
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/frontend\/entrypoints\/*/, ''),
       },
     }
   },
   plugins: [
-   dynamicImport(),
+    dynamicImport(),
     basicSsl(),
     shopify({
       themeRoot: './',
@@ -50,13 +56,14 @@ export default defineConfig({
       snippetFile: "vite-tag.liquid",
     }),
     vue({
-      template:{
-        compilerOptions:{
-          // isCustomElement: tag => tag.startsWith('data-vue'),
+      template: {
+        compilerOptions: {
+          // isCustomElement: tag => tag.startsWith('vue'),
         },
       },
-    })
+    }),
+    liquidNoUpdate()
   ],
-  
-  
+
+
 });

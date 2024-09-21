@@ -78,7 +78,7 @@
 // export default vueLoader;
 import { createApp } from "vue";
 
-const configCache = {};
+let configCache = {};
 
 const init = (option = {}) => {
     const app = createApp(option);
@@ -87,21 +87,20 @@ const init = (option = {}) => {
 
 const loadConfig = (nameAliase) => {
     console.log("nameAliase", nameAliase)
-    // if (!nameAliase in configCache) {
+    if (!configCache[nameAliase]) {
         configCache[nameAliase] = import(`@components/${nameAliase}`)
             .then(({ default: Instance }) => Instance)
             .catch(err => {
                 console.log(err);
-                return null;
+                return {};
             });
-    // }
+    }
     return configCache[nameAliase];
 }
 
 class vueAppInitalize extends HTMLElement {
     async connectedCallback() {
         const { uid, vue: alias } = this.dataset;
-        // debugger;
         console.log("alias=>", alias)
         if (!uid) {
             const config = await loadConfig(alias);
@@ -109,8 +108,15 @@ class vueAppInitalize extends HTMLElement {
             const app = init(config);
             const { _uid: instanceId } = app;
             this.dataset.uid = instanceId;
-            // app.config.delimiters = ['{%', '%}']
+            app.config.compilerOptions.delimiters = ['${', '}'];
             app.mount(this);
+        }
+    }
+
+    desconnectCallback() {
+        const { __vue_app__: vm} = this;
+        if(vm){
+            vm.unmoint();
         }
     }
 }
