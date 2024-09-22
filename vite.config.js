@@ -55,13 +55,7 @@ export default defineConfig({
       ],
       snippetFile: "vite-tag.liquid",
     }),
-    vue({
-      template: {
-        compilerOptions: {
-          // isCustomElement: tag => tag.startsWith('vue'),
-        },
-      },
-    }),
+    vue(),
     liquidNoUpdate()
   ],
 
