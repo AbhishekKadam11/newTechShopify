@@ -86,7 +86,6 @@ const init = (option = {}) => {
 }
 
 const loadConfig = (nameAliase) => {
-    console.log("nameAliase", nameAliase)
     if (!configCache[nameAliase]) {
         configCache[nameAliase] = import(`@components/${nameAliase}`)
             .then(({ default: Instance }) => Instance)
@@ -121,4 +120,4 @@ class vueAppInitalize extends HTMLElement {
     }
 }
 
-customElements.define('vue-loader', vueAppInitalize);
+customElements.define('vue-app', vueAppInitalize);

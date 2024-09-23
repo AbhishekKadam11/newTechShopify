@@ -33,10 +33,11 @@ export default defineConfig({
     }
   },
   server: {
-    https: true,
+    // https: true,
     strictPort: true,
-    open: true,
+    open: '/',
     proxy: {
+      // '/src/entrypoints': 'http://127.0.0.1:9292',
       '^/(?!(@(.*)|node_modules|src|styles)/)': {
         target: 'http://127.0.0.1:9292',
         changeOrigin: true,

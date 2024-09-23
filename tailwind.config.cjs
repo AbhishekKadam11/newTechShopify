@@ -3,7 +3,7 @@ module.exports = {
   prefix: 'tw-',
   content: [
     './**/*.liquid',
-    './frontend/**/*.{js,ts,jsx,tsx}'
+    './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {}

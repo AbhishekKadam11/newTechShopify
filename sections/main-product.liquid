@@ -1,7 +1,7 @@
 <product-info
 
 >
-  <vue-loader data-vue="productDescription"> 
+  <vue-app data-vue="productDescription"> 
   test == ${ greeting }
   test2 == {{ greeting }}
     {% comment %} {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
@@ -718,7 +718,7 @@
         {{ product | structured_data }}
       </script>
     </div> {% endcomment %}
-  </vue-loader>
+  </vue-app>
 </product-info>
 
 {% schema %}

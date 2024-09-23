@@ -41,7 +41,17 @@
 
     {%- liquid
       render 'vite-tag' with 'main.css'
-      render 'vite-tag' with 'main.js'
+      render 'vite-tag' with '/src/entrypoints/main.js'
+      assign entry_point = template | append '.js'
+      capture vite_assets
+        render 'vite-tag' with entry_point
+        endcapture
+        unless vite_assets == blank
+        echo vite_assets
+        else 
+        assign entry_point = template.name | append: '.js'
+        render 'vite-tag' with entry_point
+        endunless
     -%}
     
     {{ content_for_header }}
