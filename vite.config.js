@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import dynamicImport from 'vite-plugin-dynamic-import';
+import shopifyClean from '@by-association-only/vite-plugin-shopify-clean';
 
 const liquidNoUpdate = () => ({
   name: 'liquid-no-hot-update',
@@ -33,7 +34,7 @@ export default defineConfig({
     }
   },
   server: {
-    // https: true,
+    https: false,
     strictPort: true,
     open: '/',
     proxy: {
@@ -41,12 +42,14 @@ export default defineConfig({
       '^/(?!(@(.*)|node_modules|src|styles)/)': {
         target: 'http://127.0.0.1:9292',
         changeOrigin: true,
+        ws: true
       },
     }
   },
   plugins: [
     dynamicImport(),
     basicSsl(),
+    shopifyClean(),
     shopify({
       themeRoot: './',
       sourceCodeDir: "src",
