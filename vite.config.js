@@ -11,7 +11,35 @@ const liquidNoUpdate = () => ({
   handleHotUpdate({ file }) {
     return (file.endsWith('.liquid')) ? [] : null;
   },
-})
+});
+
+const proxyOptions = {
+  target: `http://127.0.0.1:${process.env.WEB_PORT || 9292}`,
+  changeOrigin: true,
+  secure: true,
+  ws: true,
+};
+
+const host = process.env.HOST ? process.env.HOST.replace(/https?:\/\//, '') : 'localhost';
+
+let hmrConfig;
+
+if (host === 'localhost') {
+  hmrConfig = {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 9292,
+      clientPort: 9292,
+  };
+} else {
+  hmrConfig = {
+      protocol: 'wss',
+      host: host,
+      port: process.env.FRONTEND_PORT || 9292,
+      clientPort: 443,
+  };
+}
+
 
 export default defineConfig({
   resolve: {
@@ -37,14 +65,18 @@ export default defineConfig({
     https: false,
     strictPort: true,
     open: '/',
+    hmr: hmrConfig,
     proxy: {
-      // '/src/entrypoints': 'http://127.0.0.1:9292',
-      '^/(?!(@(.*)|node_modules|src|styles)/)': {
-        target: 'http://127.0.0.1:9292',
-        changeOrigin: true,
-        ws: true
-      },
+      '^/(?!(@(.*)|node_modules|src|styles)/)': proxyOptions
     }
+    // proxy: {
+    //   // '/src/entrypoints': 'http://127.0.0.1:9292',
+    //   '^/(?!(@(.*)|node_modules|src|styles)/)': {
+    //     target: 'http://127.0.0.1:9292',
+    //     changeOrigin: true,
+    //     ws: true
+    //   },
+    // }
   },
   plugins: [
     dynamicImport(),
