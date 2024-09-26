@@ -20,37 +20,7 @@ const proxyOptions = {
   ws: true,
 };
 
-const host = process.env.HOST ? process.env.HOST.replace(/https?:\/\//, '') : 'localhost';
-
-let hmrConfig;
-
-if (host === 'localhost') {
-  hmrConfig = {
-      protocol: 'ws',
-      host: 'localhost',
-      port: 9292,
-      clientPort: 9292,
-  };
-} else {
-  hmrConfig = {
-      protocol: 'wss',
-      host: host,
-      port: process.env.FRONTEND_PORT || 9292,
-      clientPort: 443,
-  };
-}
-
-
-export default defineConfig({
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
-      'focus-trap-vue$': 'focus-trap-vue/dist/index.esm.js',
-      '@utils': path.resolve(__dirname, './src/scripts/utils'),
-      '@components': path.resolve(__dirname, './src/components'),
-    },
-    extensions: ['.vue', '.js', '.json', '.mjs']
-  },
+export default {
   build: {
     emptyOutDir: false,
     rollupOptions: {
@@ -62,22 +32,23 @@ export default defineConfig({
     }
   },
   server: {
-    https: false,
+    https: true,
     strictPort: true,
     open: '/',
-    hmr: hmrConfig,
     proxy: {
       '^/(?!(@(.*)|node_modules|src|styles)/)': proxyOptions
     }
-    // proxy: {
-    //   // '/src/entrypoints': 'http://127.0.0.1:9292',
-    //   '^/(?!(@(.*)|node_modules|src|styles)/)': {
-    //     target: 'http://127.0.0.1:9292',
-    //     changeOrigin: true,
-    //     ws: true
-    //   },
-    // }
   },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler.js',
+      'focus-trap-vue$': 'focus-trap-vue/dist/index.esm.js',
+      '@utils': path.resolve(__dirname, './src/scripts/utils'),
+      '@components': path.resolve(__dirname, './src/components'),
+    },
+    extensions: ['.vue', '.js', '.json', '.mjs']
+  },
+
   plugins: [
     dynamicImport(),
     basicSsl(),
@@ -95,5 +66,4 @@ export default defineConfig({
     liquidNoUpdate()
   ],
 
-
-});
+};
