@@ -78,9 +78,9 @@
       }
     },
     "featured_collection": {
-      "type": "featured-collection",
+      "type": "new-releases",
       "settings": {
-        "title": "Featured products",
+        "title": "New Release",
         "heading_size": "h2",
         "description": "",
         "show_description": false,

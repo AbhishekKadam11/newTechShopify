@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "run-p --print-label --race --silent dev:*",
-    "dev:shopify": "shopify theme dev -e %npm_package_config_dev_env%",
+    "dev:shopify": "shopify theme dev",
     "dev:vite": "wait-on http://127.0.0.1:9292 && vite dev",
     "build": "run-s vite:build",
     "deploy": "run-s vite:build && shopify theme push -e production",
