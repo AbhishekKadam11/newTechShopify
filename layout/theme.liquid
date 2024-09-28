@@ -40,7 +40,7 @@
     {%- endif -%}
 
     {%- liquid
-      render 'vite-tag' with 'main.css'
+      render 'vite-tag' with '/src/entrypoints/main.css'
       render 'vite-tag' with '/src/entrypoints/main.js'
       assign entry_point = template | append '.js'
       capture vite_assets

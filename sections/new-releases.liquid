@@ -104,7 +104,7 @@
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            {% render 'card-product',
+          {% render 'card-item',
               card_product: product,
               media_aspect_ratio: section.settings.image_ratio,
               image_shape: section.settings.image_shape,
@@ -114,7 +114,7 @@
               skip_styles: skip_card_product_styles,
               section_id: section.id,
               quick_add: section.settings.quick_add
-            %}
+            %} 
           </li>
           {%- assign skip_card_product_styles = true -%}
         {%- else -%}

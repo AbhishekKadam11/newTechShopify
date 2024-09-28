@@ -1,10 +1,11 @@
-import { defineConfig } from 'vite';
 import shopify from 'vite-plugin-shopify';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import basicSsl from '@vitejs/plugin-basic-ssl'
 import dynamicImport from 'vite-plugin-dynamic-import';
 import shopifyClean from '@by-association-only/vite-plugin-shopify-clean';
+import autoprefixer from "autoprefixer";
+import tailwindcss from "tailwindcss";
 
 const liquidNoUpdate = () => ({
   name: 'liquid-no-hot-update',
@@ -17,7 +18,7 @@ const proxyOptions = {
   target: `http://127.0.0.1:${process.env.WEB_PORT || 9292}`,
   changeOrigin: true,
   secure: true,
-  ws: true,
+  ws: false,
 };
 
 export default {
@@ -48,7 +49,11 @@ export default {
     },
     extensions: ['.vue', '.js', '.json', '.mjs']
   },
-
+  css: {
+    postcss: {
+      plugins: [tailwindcss, autoprefixer],
+    },
+  },
   plugins: [
     dynamicImport(),
     basicSsl(),
