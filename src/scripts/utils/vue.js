@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import customFilter from "../customFilters/filters";
+import customFilter from "../customFilters";
 
 let configCache = {};
 
@@ -31,6 +31,7 @@ class vueAppInitalize extends HTMLElement {
             const { _uid: instanceId } = app;
             this.dataset.uid = instanceId;
             app.config.compilerOptions.delimiters = ['${', '}'];
+            // app.config.globalProperties.$filters = customFilter;
             app.mount(this);
         }
     }

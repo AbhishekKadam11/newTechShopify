@@ -45,6 +45,7 @@ export default {
       vue: 'vue/dist/vue.esm-bundler.js',
       'focus-trap-vue$': 'focus-trap-vue/dist/index.esm.js',
       '@utils': path.resolve(__dirname, './src/scripts/utils'),
+      '@customFilters': path.resolve(__dirname, './src/scripts/customFilters'),
       '@components': path.resolve(__dirname, './src/components'),
     },
     extensions: ['.vue', '.js', '.json', '.mjs']
@@ -63,7 +64,9 @@ export default {
       sourceCodeDir: "src",
       entrypointsDir: 'src/entrypoints',
       additionalEntrypoints: ['src/entrypoints/*.js',
-        'src/scripts/utils/*.js'
+        'src/scripts/utils/*.js',
+        'src/scripts/customFilters/*.js',
+        'src/scripts/customFilters/**/*.js',
       ],
       snippetFile: "vite-tag.liquid",
     }),
