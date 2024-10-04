@@ -1,5 +1,6 @@
 <script>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import compareDate from '@/scripts/customFilters/filters/compareDate';
 export default {
 
   setup() {
@@ -8,7 +9,8 @@ export default {
     const testfn = () =>console.log("button click", greeting);
     return {
       greeting,
-      testfn
+      testfn,
+      compareDate
     }
   }
 }

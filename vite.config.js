@@ -43,7 +43,6 @@ export default {
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm-bundler.js',
-      'focus-trap-vue$': 'focus-trap-vue/dist/index.esm.js',
       '@utils': path.resolve(__dirname, './src/scripts/utils'),
       '@customFilters': path.resolve(__dirname, './src/scripts/customFilters'),
       '@components': path.resolve(__dirname, './src/components'),

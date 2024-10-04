@@ -1,4 +1,4 @@
-import vue from 'vue';
+import * as Vue from 'vue';
 
 // vue.filter('myFilter', value => {
 //   console.log('myFilter', value)
@@ -8,3 +8,10 @@ import vue from 'vue';
 export default function (value) {
   return value.toUpperCase();
 }
+
+// Vue.filter("currency", value => {
+//   if (value >= 0) {
+//     return "$" + value.toFixed(2).toLocaleString();
+//   }
+//   return null;
+// });

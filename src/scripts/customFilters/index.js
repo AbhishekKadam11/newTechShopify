@@ -1,1 +1,1 @@
-export * as default from './filters/date';
+export * as default from './filters/compareDate';
