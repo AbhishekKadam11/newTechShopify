@@ -97,8 +97,11 @@
           role="list"
           aria-label="{{ 'general.slider.name' | t }}"
         >
+          {% comment %} {% capture temp %} ${compareDate("test")} {% endcapture %}
+          {{ temp }} {% endcomment %}
           {% assign skip_card_product_styles = false %}
-          {% assign productList = section.settings.collection.products  %}
+          {% assign productList = section.settings.collection.products %}
+       
           {%- for product in productList limit: section.settings.products_to_show -%}
            
             {% comment %} {{ product |json }} {% endcomment %}

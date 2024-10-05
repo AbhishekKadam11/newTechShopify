@@ -6,6 +6,7 @@ import * as Vue from 'vue';
 // });
 
 export default function (value) {
+  console.log("value=>",value)
   return value.toUpperCase();
 }
 
