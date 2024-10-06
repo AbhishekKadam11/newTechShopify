@@ -23,7 +23,6 @@ const loadConfig = (nameAliase) => {
 class vueAppInitalize extends HTMLElement {
     async connectedCallback() {
         const { uid, vue: alias } = this.dataset;
-        console.log("alias=>", alias)
         if (!uid) {
             const config = await loadConfig(alias);
             config.name = alias;
