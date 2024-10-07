@@ -99,12 +99,15 @@
         >
           
           {% assign skip_card_product_styles = false %}
-          {% assign product_list = section.settings.collection.products  %}
+          {% assign product_list = section.settings.collection.products | sort: 'published_at' %}
           {% comment %} {% capture temp %} ${compareDate('{{section.settings.collection.products}}')} {% endcapture %}
           {{ temp }} {% endcomment %}
 
-          {%- for product in product_list  limit: section.settings.products_to_show -%}
-           
+          {% comment %} {% assign today_date = 'now' | date: '%s' | times: 1 %} {% endcomment %}
+
+          {%- for product in product_list limit: section.settings.products_to_show -%}
+            {% comment %} {% assign pre_date = product.published_at | date: '%s' | plus: 259200 %}
+            {{ pre_date }} {% endcomment %}
             {% comment %} {{ product |json }} {% endcomment %}
             {% comment %}
               {% capture nowunix %}{{'now' | date: '%s'}}{% endcapture %}
