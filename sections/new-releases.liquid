@@ -99,7 +99,7 @@
         >
           
           {% assign skip_card_product_styles = false %}
-          {% assign product_list = section.settings.collection.products | sort: 'published_at' %}
+          {% assign product_list = section.settings.collection.products | sort: section.settings.sort_item_key %}
           {% comment %} {% capture temp %} ${compareDate('{{section.settings.collection.products}}')} {% endcapture %}
           {{ temp }} {% endcomment %}
 
@@ -509,6 +509,23 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "select",
+      "id": "sort_item_key",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.sort_item_key.label",
+      "info": "t:sections.main-collection-product-grid.settings.sort_item_key.info",
+      "options": [
+        {
+          "value": "published_at",
+          "label": "t:sections.main-collection-product-grid.settings.sort_item_key.options.option_1"
+        },
+        {
+          "value": "created",
+          "label": "t:sections.main-collection-product-grid.settings.sort_item_key.options.option_2"
+        }
+      ]
     }
   ],
   "presets": [
