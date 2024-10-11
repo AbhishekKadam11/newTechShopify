@@ -12,7 +12,6 @@
     "deploy:dev": "run-s vite:build && shopify theme push -e development",
     "deploy:staging": "run-s vite:build && shopify theme push --path shopify -e staging",
     "deploy:new": "run-s vite:build && shopify theme push --unpublished",
-    "vite:watch": "wait-on http://127.0.0.1:9292 && vite dev",
     "vite:build": "cross-env NODE_ENV=production vite build",
     "shopify:dev": "shopify theme dev --poll --live-reload=\"hot-reload\" --theme-editor-sync -e development",
     "shopify:pull": "shopify theme pull",

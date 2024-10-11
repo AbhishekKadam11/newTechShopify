@@ -46,6 +46,10 @@ export default {
       '@utils': path.resolve(__dirname, './src/scripts/utils'),
       '@customFilters': path.resolve(__dirname, './src/scripts/customFilters'),
       '@components': path.resolve(__dirname, './src/components'),
+      '@directives': path.resolve(__dirname, './src/directives'),
+      '@instances': path.resolve(__dirname, './src/instances'),
+      '@libraries': path.resolve(__dirname, './src/libraries'),
+      '@mixins': path.resolve(__dirname, './src/mixins'),
     },
     extensions: ['.vue', '.js', '.json', '.mjs']
   },
@@ -69,7 +73,15 @@ export default {
       ],
       snippetFile: "vite-tag.liquid",
     }),
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          // treat all tags with a dash as custom elements
+          // isCustomElement: (tag) => tag.startsWith("add-", "New")
+          isCustomElement: (tag) => ["new-release", "add-to-cart"].includes(tag)
+        },
+      },
+    }),
     liquidNoUpdate()
   ],
 

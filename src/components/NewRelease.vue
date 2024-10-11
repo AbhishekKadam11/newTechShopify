@@ -1,7 +1,12 @@
 <script>
 import { ref } from 'vue';
 import compareDate from '@/scripts/customFilters/filters/compareDate';
+import AddToCart from './AddToCart.vue';
 export default {
+
+  components: {
+    AddToCart
+  },
 
   setup() {
 

@@ -9,16 +9,20 @@ const init = (option = {}) => {
 }
 
 const loadConfig = (nameAliase) => {
-    if (!configCache[nameAliase]) {
-        configCache[nameAliase] = import(`@components/${nameAliase}`)
-            .then(({ default: Instance }) => Instance)
-            .catch(err => {
-                console.log(err);
-                return {};
-            });
+    if (nameAliase) {
+        if (!configCache[nameAliase]) {
+            configCache[nameAliase] = import(`@components/${nameAliase}`)
+                .then(({ default: Instance }) => Instance)
+                .catch(err => {
+                    console.log(err);
+                    return {};
+                });
+        }
+        return configCache[nameAliase];
     }
-    return configCache[nameAliase];
+    throw new Error('Name aliase not found for component');
 }
+    
 
 class vueAppInitalize extends HTMLElement {
     async connectedCallback() {
@@ -30,7 +34,9 @@ class vueAppInitalize extends HTMLElement {
             const { _uid: instanceId } = app;
             this.dataset.uid = instanceId;
             app.config.compilerOptions.delimiters = ['${', '}'];
-            app.config.globalProperties.$filters = customFilter;
+            // app._component = alias
+            // app.config.customElements= alias
+            // app.config.globalProperties.$filters = customFilter;
             app.mount(this);
         }
     }
