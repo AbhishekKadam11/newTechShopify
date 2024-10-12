@@ -77,8 +77,7 @@ export default {
       template: {
         compilerOptions: {
           // treat all tags with a dash as custom elements
-          // isCustomElement: (tag) => tag.startsWith("add-", "New")
-          isCustomElement: (tag) => ["new-release", "add-to-cart"].includes(tag)
+          isCustomElement: (tag) => tag
         },
       },
     }),

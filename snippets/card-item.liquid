@@ -21,14 +21,16 @@
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 
-{% comment %} {%- unless skip_styles -%}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
+{% comment %}
+  {%- unless skip_styles -%}
+    {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+    {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
 
-  {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
-  {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
-{%- endunless -%} {% endcomment %}
+    {{ 'component-price.css' | asset_url | stylesheet_tag }}
+    {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
+    {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+  {%- endunless -%}
+{% endcomment %}
 {% comment %} <vue-app data-vue="AddToCart"> {% endcomment %}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -172,31 +174,30 @@
             {%- endif -%}
 
             {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
-            
-            <add-to-cart> </add-to-cart>
+          </div>
+          
+          <div class="card__badge {{ settings.badge_position }}">
+            {%- if card_product.available == false -%}
+              <span
+                id="Badge-{{ section_id }}-{{ card_product.id }}"
+                class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+              >
+                {{- 'products.product.sold_out' | t -}}
+              </span>
+            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+              <span
+                id="Badge-{{ section_id }}-{{ card_product.id }}"
+                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+              >
+                {{- 'products.product.on_sale' | t -}}
+              </span>
+            {%- endif -%}
           </div>
         </div>
-
-        <div class="card__badge {{ settings.badge_position }}">
-          {%- if card_product.available == false -%}
-            <span
-              id="Badge-{{ section_id }}-{{ card_product.id }}"
-              class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
-            >
-              {{- 'products.product.sold_out' | t -}}
-            </span>
-          {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-            <span
-              id="Badge-{{ section_id }}-{{ card_product.id }}"
-              class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-            >
-              {{- 'products.product.on_sale' | t -}}
-            </span>
-          {%- endif -%}
+        <div class="quantity-selector">
+          <add-to-cart> </add-to-cart>
         </div>
       </div>
     </div>
-  </div>
-
 {%- endif -%}
 {% comment %} </vue-app> {% endcomment %}
