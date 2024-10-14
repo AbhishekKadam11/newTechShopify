@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { SVG_CONSTANTS } from '@/shared/svgIcons';
 
 const props = defineProps({
@@ -14,6 +14,7 @@ const props = defineProps({
 });
 
 const quantity = ref(0);
+const quantityError = ref("");
 const incrementQuantity = () => {
   if (quantity.value >= props.max) {
     return props.max;
@@ -27,6 +28,16 @@ const decrementQuantity = () => {
   return quantity.value--;
 };
 
+watch(quantity, () => {
+  if (quantity.value >= props.max) {
+    return quantityError.value = `Max ${props.max} quantity allowed`;
+  } else if (quantity.value <= props.min) {
+    return quantityError.value = `Min 1 quantity allowed`;
+  } else {
+    return quantityError.value = '';
+  }
+});
+
 </script>
 <template>
   <div class="quantity cart-quantity">
@@ -37,23 +48,25 @@ const decrementQuantity = () => {
       <div v-html="SVG_CONSTANTS.MINUS"></div>
     </button>
     <input class="quantity__input" data-quantity-variant-id="{{ variant.id }}" type="number"
-      name="updates[{{ variant_id }}]" v-model="quantity"
-      min="props.min"
-      max="props.max"
+      name="updates[{{ variant_id }}]" v-model="quantity" min="props.min" max="props.max"
       aria-label="{{ 'products.product.quantity.input_label' | t: product: variant.title | escape }}"
-      id="Quantity-{{ variant.id }}" data-index="{{ variant.id }}"  />
+      id="Quantity-{{ variant.id }}" data-index="{{ variant.id }}" />
     <button class="quantity__button" name="plus" type="button" v-on:click="incrementQuantity">
-      <!-- <span class="visually-hidden">
-      {{- 'products.product.quantity.increase' | t: product: variant.title | escape -}}
-    </span> -->
+
       <div v-html="SVG_CONSTANTS.PLUS"></div>
     </button>
     <!-- {%- render 'progress-bar' -%} -->
   </div>
+  <span class="quantity-validation" v-if="quantityError">
+    {{ quantityError }}
+  </span>
 </template>
 
 <style scoped>
 .quantity {
   width: auto;
+}
+.quantity-validation {
+  color: red;
 }
 </style>
