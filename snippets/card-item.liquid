@@ -175,7 +175,7 @@
 
             {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
           </div>
-          
+
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
               <span
@@ -199,5 +199,6 @@
         </div>
       </div>
     </div>
+  </div>
 {%- endif -%}
 {% comment %} </vue-app> {% endcomment %}

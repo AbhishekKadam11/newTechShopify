@@ -39,7 +39,7 @@ watch(quantity, () => {
 });
 
 </script>
-<template>
+<template> 
   <div class="quantity cart-quantity">
     <button class="quantity__button" name="minus" type="button" v-on:click="decrementQuantity">
       <!-- <span class="visually-hidden">
@@ -57,9 +57,9 @@ watch(quantity, () => {
     </button>
     <!-- {%- render 'progress-bar' -%} -->
   </div>
-  <span class="quantity-validation" v-if="quantityError">
+  <div class="quantity-validation caption-with-letter-spacing" v-if="quantityError">
     {{ quantityError }}
-  </span>
+  </div>
 </template>
 
 <style scoped>
