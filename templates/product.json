@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "product-description",
       "blocks": {
         "vendor": {
           "type": "text",
@@ -27,11 +27,7 @@
             "swatch_shape": "circle"
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {
-          }
-        },
+       
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
