@@ -1,4 +1,4 @@
-<vue-app 
+<vue-app
   data-vue="ProductDescription"
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -99,7 +99,7 @@
                 </p>
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}</h1> 
+                  <h1>{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
                       {{ product.title | escape }}
@@ -141,9 +141,7 @@
                     {{ form | payment_terms }}
                   {%- endform -%}
                 </div>
-                <div class="quantity-selector max-h-24 pd-initial">
-                  <add-to-cart :min="0" :max="5"> </add-to-cart>
-                </div>
+
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
                   <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
@@ -180,7 +178,13 @@
                     </div>
                   </details>
                 </div>
-            
+              {%- when 'quantity-input-selector' -%}
+                <div class="quantity-selector max-h-24">
+                  {% render 'quantity-input-selector',
+                    min: settings['quantity-input-selector'].minimum_quanity,
+                    max: settings['quantity-input-selector'].maximum_quanity
+                  %}
+                </div>
               {%- when 'popup' -%}
                 <modal-opener
                   class="product-popup-modal__opener quick-add-hidden"
@@ -583,9 +587,23 @@
       ]
     },
     {
-      "type": "quantity_selector",
+      "type": "quantity-input-selector",
       "name": "t:sections.main-product.blocks.quantity_selector.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "number",
+          "id": "minimum_quantity",
+          "default": 0,
+          "label": "t:sections.main-product.blocks.quantity_selector.settings.label.minimum_quantity"
+        },
+        {
+          "type": "number",
+          "id": "maximum_quantity",
+          "default": 0,
+          "label": "t:sections.main-product.blocks.quantity_selector.settings.label.maximum_quantity"
+        }
+      ]
     },
     {
       "type": "variant_picker",

@@ -40,12 +40,9 @@ watch(quantity, () => {
 
 </script>
 <template>
-  <div class="card__information row-auto">
+  <div class="quantity-rows">
     <div class="quantity cart-quantity">
       <button class="quantity__button" name="minus" type="button" v-on:click="decrementQuantity">
-        <!-- <span class="visually-hidden">
-      {{- 'products.product.quantity.decrease' | t: product: variant.title | escape -}}
-    </span> -->
         <div v-html="SVG_CONSTANTS.MINUS"></div>
       </button>
       <input class="quantity__input" data-quantity-variant-id="{{ variant.id }}" type="number"
@@ -58,7 +55,7 @@ watch(quantity, () => {
       </button>
       <!-- {%- render 'progress-bar' -%} -->
     </div>
-    <div class="quantity-validation caption-with-letter-spacing row-auto" v-if="quantityError">
+    <div class="quantity-validation caption-with-letter-spacing" v-if="quantityError">
       {{ quantityError }}
     </div>
   </div>
@@ -71,5 +68,9 @@ watch(quantity, () => {
 
 .quantity-validation {
   color: red;
+}
+.quantity-rows {
+  grid-row-start: 2;
+  padding: 1.3rem 0rem;
 }
 </style>

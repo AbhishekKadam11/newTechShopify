@@ -2037,7 +2037,13 @@
           }
         },
         "quantity_selector": {
-          "name": "Quantity selector"
+          "name": "Quantity selector",
+          "settings": {
+            "label": {
+              "minimum_quantity": "Minimum Quantity",
+              "maximum_quantity": "Maximum Quantity",
+            }
+          }
         },
         "variant_picker": {
           "name": "Variant picker",
