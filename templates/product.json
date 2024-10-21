@@ -50,6 +50,11 @@
             "show_gift_card_recipient": true
           }
         },
+        "review_rating": {
+          "type": "review_rating",
+          "settings": {
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
@@ -69,6 +74,7 @@
         "variant_picker",
         "quantity-input-selector",
         "buy_buttons",
+        "review_rating",
         "description",
         "share"
       ],
