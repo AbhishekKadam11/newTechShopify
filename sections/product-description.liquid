@@ -166,7 +166,7 @@
                     max: settings['quantity-input-selector'].maximum_quanity
                   %}
                 </div>
-
+                  {% comment %} {{  product.metafields.custom.rating }} {% endcomment %}
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
@@ -178,7 +178,7 @@
                   show_pickup_availability: true
                 -%}
               {%- when 'review-rating' -%}
-                {%- if product.metafields.reviews.rating.value != blank -%}
+                {%- if product.metafields.custom.rating.value != blank -%}
                   {%  render 'review-rating' %}
                 {%- endif -%}
               {%- when 'complementary' -%}
