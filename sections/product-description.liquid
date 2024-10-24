@@ -177,7 +177,7 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
-              {%- when 'rating' -%}
+              {%- when 'review-rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   {%  render 'review-rating' %}
                 {%- endif -%}
@@ -665,7 +665,7 @@
       ]
     },
     {
-      "type": "rating",
+      "type": "review-rating",
       "name": "t:sections.main-product.blocks.rating.name",
       "limit": 1,
       "settings": [
