@@ -1,6 +1,6 @@
 <script>
 import { ref } from 'vue';
-import compareDate from '@/scripts/customFilters/filters/compareDate';
+// import compareDate from '@/scripts/customFilters/filters/compareDate';
 import AddToCart from './AddToCart.vue';
 export default {
 
@@ -15,7 +15,7 @@ export default {
     return {
       greeting,
       testfn,
-      compareDate
+      // compareDate
     }
   }
 }

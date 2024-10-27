@@ -71,10 +71,10 @@
         "vendor",
         "title",
         "price",
+        "review-rating",
         "variant_picker",
         "quantity-input-selector",
         "buy_buttons",
-        "review-rating",
         "description",
         "share"
       ],
