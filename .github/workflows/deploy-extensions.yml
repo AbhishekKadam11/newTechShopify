@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  SOURCE_REPO: https://github.com/AbhishekKadam11/shopifyEnv.git
+  SOURCE_REPO: AbhishekKadam11/shopifyEnv
   SOURCE_BRANCH: main
   AUTOMATIC_MONITOR: true
   FILES: "*.toml"
