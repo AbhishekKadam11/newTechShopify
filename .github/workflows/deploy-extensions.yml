@@ -7,8 +7,8 @@ env:
   SOURCE_REPO: AbhishekKadam11/shopifyEnv
   SOURCE_BRANCH: main
   AUTOMATIC_MONITOR: true
-  FILES: "*.toml"
-  FILES_NEW: "*.toml"
+  FILES: "shopify.theme.toml"
+  FILES_NEW: "shopify.theme.toml"
   USERNAME: ${{ github.actor }}
   ADDRESS_SUFFIX:  "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
   THE_SERVER: ${{ github.server_url }}
