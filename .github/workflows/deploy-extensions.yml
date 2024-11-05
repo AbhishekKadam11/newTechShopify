@@ -7,13 +7,13 @@ env:
   SOURCE_REPO: AbhishekKadam11/shopifyEnv
   SOURCE_BRANCH: main
   AUTOMATIC_MONITOR: true
-  FILES: "shopify.theme.toml"
-  FILES_NEW: "shopify.theme.toml"
+  FILES: shopify.theme.toml
+  FILES_NEW: shopify.theme.toml
   USERNAME: ${{ github.actor }}
   ADDRESS_SUFFIX:  "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
   THE_SERVER: ${{ github.server_url }}
   PRINT_PATH: ${{ github.workspace }}
-  PATH_SOURCE_CHECKOUT: shopifyEnv
+  PATH_SOURCE_CHECKOUT: newTechShopify/newTechShopify/shopifyEnv
 jobs:
   deploy:
     name: Deploy
