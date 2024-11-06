@@ -13,7 +13,8 @@ env:
   ADDRESS_SUFFIX:  "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
   THE_SERVER: ${{ github.server_url }}
   PRINT_PATH: ${{ github.workspace }}
-  PATH_SOURCE_CHECKOUT: newTechShopify/newTechShopify/shopifyEnv
+  PATH_SOURCE_CHECKOUT: shopifyEnv
+  WORKING_SOURCE_CHECKOUT: home/runner/work/newTechShopify/shopifyEnv
 jobs:
   deploy:
     name: Deploy
