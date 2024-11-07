@@ -14,7 +14,7 @@ env:
   THE_SERVER: ${{ github.server_url }}
   PRINT_PATH: ${{ github.workspace }}
   PATH_SOURCE_CHECKOUT: shopifyEnv
-  WORKING_SOURCE_CHECKOUT: home/runner/work/newTechShopify/shopifyEnv
+  WORKING_SOURCE_CHECKOUT: home/runner/work/newTechShopify/newTechShopify/shopifyEnv
 jobs:
   deploy:
     name: Deploy
@@ -35,7 +35,7 @@ jobs:
       - name: Copy file to current repository
         run: |
           echo ${{ github.workspace }}
-          cd $PATH_SOURCE_CHECKOUT
+          cd $WORKING_SOURCE_CHECKOUT
           cp -u $FILES_NEW ../
           cd ..
       - name: Install npm dependencies
