@@ -10,8 +10,10 @@ export default {
 
   setup() {
 
-    const greeting = ref("test")
+    const greeting = ref("test");
     const testfn = () =>console.log("button click", greeting);
+    console.log('product in vue', customElements.get('data-products'));
+
     return {
       greeting,
       testfn,
