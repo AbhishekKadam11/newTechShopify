@@ -37,7 +37,7 @@ jobs:
         run: |
           echo ${{ github.workspace }}
           
-          cp ./newTechShopify/newTechFrontend/shopify.theme.toml ../
+          cp ./home/runner/work/newTechShopify/newTechShopify/newTechFrontend/shopify.theme.toml ../
           cd ..
       - name: Install npm dependencies
         run: npm install
