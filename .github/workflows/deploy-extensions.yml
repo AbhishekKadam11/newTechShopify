@@ -20,11 +20,6 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: 'npm'
       - name: Checkout shopify env repository
         uses: actions/checkout@v2
         with:
@@ -32,13 +27,17 @@ jobs:
           ref: ${{ env.SOURCE_BRANCH }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           token: ${{ secrets.ENV_PRIVATE_ACCESS_TOKEN }}
-
+         
       - name: Copy file to current repository
         run: |
           echo ${{ github.workspace }}
-          
-          cp ./home/runner/work/newTechShopify/newTechShopify/newTechFrontend/shopify.theme.toml ../
+          cp ./newTechFrontend/shopify.theme.toml ../
           cd ..
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
       - name: Install npm dependencies
         run: npm install
       - name: Install Shopify CLI
