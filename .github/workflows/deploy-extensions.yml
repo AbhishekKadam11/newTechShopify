@@ -31,6 +31,7 @@ jobs:
       - name: Copy file to current repository
         run: |
           echo ${{ github.workspace }}
+          ls
           cp ./newTechFrontend/shopify.theme.toml ../
           cd ..
       - uses: actions/checkout@v1

@@ -73,14 +73,7 @@ export default {
       ],
       snippetFile: "vite-tag.liquid",
     }),
-    vue({
-      template: {
-        compilerOptions: {
-          // treat all tags with a dash as custom elements
-          isCustomElement: (tag) => tag
-        },
-      },
-    }),
+    vue(),
     liquidNoUpdate()
   ],
 

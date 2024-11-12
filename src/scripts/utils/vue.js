@@ -34,6 +34,12 @@ class vueAppInitalize extends HTMLElement {
             const { _uid: instanceId } = app;
             this.dataset.uid = instanceId;
             app.config.compilerOptions.delimiters = ['${', '}'];
+            // app.config.compilerOptions.isCustomElement = (tag) => tag.includes('data-')
+            // app.config.compilerOptions = {
+            //         // treat all tags with a dash as custom elements
+            //         isCustomElement: (tag) => tag,
+                    
+            // };
             // app._component = alias
             // app.config.customElements= alias
             // app.config.globalProperties.$filters = customFilter;

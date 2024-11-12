@@ -28,8 +28,7 @@
   endif
 -%}
 <vue-app data-vue="ProductFilter">
-  <div data-product-id="{{ enable_filtering }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    {{ testVar }}
+  <div ref="rootElement" data-products-list="{{ products | json | string }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
