@@ -25,7 +25,7 @@ export default {
     onMounted((data, target) => {
       // rootElement = rootElement.value.dataset.productId;
       if (rootElement.value) {
-        console.log('product in vue', rootElement.value.dataset.productsList);
+        console.log('product in vue', rootElement.value.dataset.productTags);
       }
     });
 

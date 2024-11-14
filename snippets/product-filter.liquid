@@ -20,7 +20,7 @@
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign total_active_values = 0
   assign default_presentation = 'text'
-  assign collectionFilter = results.filters | string
+  assign productTags = collection.all_tags | escape
   if results.url
     assign results_url = results.url
   else
@@ -29,7 +29,7 @@
   endif
 -%}
 <vue-app data-vue="ProductFilter">
-  <div ref="rootElement" data-products-list="{{ collectionFilter | escape }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <div ref="rootElement" data-product-tags="{{ productTags  }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
@@ -50,6 +50,7 @@
           {% comment %} <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> {% endcomment %}
           {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
           {%- for filter in results.filters -%}
+            {{ filter }}
             {% liquid
               assign total_active_values = total_active_values | plus: filter.active_values.size
               assign presentation = filter.presentation | default: default_presentation
@@ -102,7 +103,7 @@
                       <div class="facets__header">
                         <div>
                           <span class="facets__selected">
-                            {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}}
+                            {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}} 
                           </span>
                           {%- if filter.operator == 'AND' -%}
                             <span class="facets__and-helptext">
@@ -118,7 +119,7 @@
                       </div>
                     {%- endif -%}
                     <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                      <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                      <legend class="visually-hidden">{{ filter.label | escape }}</legend> 
                       {%- liquid
                         assign sorted_values = filter.values
                         # Keep the selected values grouped together when operator is AND
