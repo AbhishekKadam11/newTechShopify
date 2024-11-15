@@ -20,6 +20,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v2
       - name: Checkout shopify env repository
         uses: actions/checkout@v2
         with:
@@ -27,12 +29,11 @@ jobs:
           ref: ${{ env.SOURCE_BRANCH }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           token: ${{ secrets.ENV_PRIVATE_ACCESS_TOKEN }}
-         
       - name: Copy file to current repository
         run: |
           echo ${{ github.workspace }}
           ls
-          cp newTechFrontend/shopify.theme.toml ../../
+          cp ./newTechFrontend/shopify.theme.toml ../../
           cd ..
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v3
