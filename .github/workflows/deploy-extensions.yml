@@ -33,6 +33,9 @@ jobs:
         run: |
           echo ${{ github.workspace }}
           ls
+          cd newTechFrontend
+          ls
+          cd ..
           cp ./newTechFrontend/shopify.theme.toml ../../
           cd ..
       - uses: actions/checkout@v1

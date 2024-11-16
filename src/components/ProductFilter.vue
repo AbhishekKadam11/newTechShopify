@@ -1,6 +1,5 @@
 <script>
-import { onBeforeMount, onMounted, ref } from 'vue';
-// import compareDate from '@/scripts/customFilters/filters/compareDate';
+import { onMounted, ref } from 'vue';
 import AddToCart from './AddToCart.vue';
 export default {
 
@@ -11,28 +10,24 @@ export default {
   setup() {
 
     const rootElement = ref(null);
-    // const testfn = () =>console.log("button click", greeting);
-    let testVar = '';// rootElement.value.dataset.productId;
-    // console.log('product in vue', rootElement.value.dataset.productId);
-    // let dataValue = document.querySelector('.facets-container').getAttribute("data-product-id");
-
-    // console.log(dataValue);
-    // onBeforeMount((data, target)=> {
-    //  // rootElement = rootElement.value.dataset.productId;
-    //   console.log('onBeforeMount product in vue',rootElement.value.dataset.productId);
-    // })
+    let processorType = ref(null);
 
     onMounted((data, target) => {
       // rootElement = rootElement.value.dataset.productId;
       if (rootElement.value) {
-        console.log('product in vue', rootElement.value.dataset.productTags);
+        try {
+          processorType.value = JSON.parse(rootElement.value.dataset.productTags).filter(el =>  el.split("processor_type:")[1]);
+          console.log('product in vue', processorType);
+        } catch (e) {
+          throw new Error("Unable to process product tags");
+        }
       }
     });
 
     return {
       // compareDate
       rootElement,
-      testVar
+      processorType
     }
   }
 }

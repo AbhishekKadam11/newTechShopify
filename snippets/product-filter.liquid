@@ -50,7 +50,6 @@
           {% comment %} <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> {% endcomment %}
           {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
           {%- for filter in results.filters -%}
-            {{ filter }}
             {% liquid
               assign total_active_values = total_active_values | plus: filter.active_values.size
               assign presentation = filter.presentation | default: default_presentation
@@ -80,7 +79,7 @@
                   >
                     <div>
                       <span class="facets__summary-label">
-                        {{- filter.label | escape }}
+                        {{- filter.label | escape }} 
                         {%- if filter_type == 'vertical' -%}
                           <span class="facets__selected{% if filter.active_values.size == 0 %} hidden{% endif %}">
                             ({{ filter.active_values.size }})</span
@@ -119,7 +118,7 @@
                       </div>
                     {%- endif -%}
                     <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                      <legend class="visually-hidden">{{ filter.label | escape }}</legend> 
+                      <legend class="visually-hidden">{{ filter.label | escape }}</legend>  
                       {%- liquid
                         assign sorted_values = filter.values
                         # Keep the selected values grouped together when operator is AND
