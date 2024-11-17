@@ -27,9 +27,16 @@
     assign terms = results.terms | escape
     assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
   endif
+
+  assign my_new_array = "" | split: ""
+  for item in results.filters 
+    assign my_new_array = results.filters | slice: forloop.index0 | concat: my_new_array 
+  endfor 
+  assign my_new_array = my_new_array | reverse 
 -%}
+
 <vue-app data-vue="ProductFilter">
-  <div ref="rootElement" data-product-tags="{{ productTags  }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <div ref="rootElement" data-product-tags="{{ productTags  }}" data-product-info="{{my_new_array}}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
