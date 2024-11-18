@@ -28,15 +28,23 @@
     assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
   endif
 
-  assign my_new_array = "" | split: ""
-  for item in results.filters 
-    assign my_new_array = results.filters | slice: forloop.index0 | concat: my_new_array 
-  endfor 
-  assign my_new_array = my_new_array | reverse 
+   assign controllers = '' | split: '' 
+   for operation in results.filters 
+      assign lableName = operation.label | prepend: 'label:' | append: ',' | split: ''
+      assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
+      assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
+ 
+      assign opValues = '' | split: '' 
+      for op in operation.values
+        assign opValue = op.value  | prepend: 'value:' | append: ',' | split: ''
+        assign opValues = opValues | concat: opValue
+      endfor
+      assign controllers = controllers | concat: lableName | concat: typeName | concat: url_to_remove | concat: opValues
+   endfor
 -%}
-
+{% comment %} assign controllerName = operation.label | prepend: 'label:' | append: ',' | split: '' {% endcomment %}
 <vue-app data-vue="ProductFilter">
-  <div ref="rootElement" data-product-tags="{{ productTags  }}" data-product-info="{{my_new_array}}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <div ref="rootElement" data-product-tags="{{ productTags  }}" data-product-info="{{controllers}}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
