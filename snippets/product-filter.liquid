@@ -33,13 +33,21 @@
       assign lableName = operation.label | prepend: 'label:' | append: ',' | split: ''
       assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
       assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
+      assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
+      assign param_name = operation.param_name | prepend: 'param_name:' | append: ',' | split: ''
  
       assign opValues = '' | split: '' 
+      assign opTypes = '' | split: '' 
+      assign opLabels = '' | split: '' 
       for op in operation.values
-        assign opValue = op.value  | prepend: 'value:' | append: ',' | split: ''
+        assign opValue = op.value  | prepend: 'opvalue:' | append: ',' | split: ''
+        assign opType = op.type  | prepend: 'optype:' | append: ',' | split: ''
+        assign opLabel = op.label  | prepend: 'oplabel:' | append: ',' | split: ''
         assign opValues = opValues | concat: opValue
+        assign opTypes = opTypes | concat: opType
+        assign opLabels = opLabels | concat: opType
       endfor
-      assign controllers = controllers | concat: lableName | concat: typeName | concat: url_to_remove | concat: opValues
+      assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: url_to_remove | concat: url_to_add | concat: opValues | concat: opTypes | concat: opLabels
    endfor
 -%}
 {% comment %} assign controllerName = operation.label | prepend: 'label:' | append: ',' | split: '' {% endcomment %}
