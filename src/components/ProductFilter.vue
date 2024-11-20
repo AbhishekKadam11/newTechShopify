@@ -11,12 +11,14 @@ export default {
 
     const rootElement = ref(null);
     let processorType = ref(null);
+    const prductFilters = ref(null);
 
     onMounted((data, target) => {
       // rootElement = rootElement.value.dataset.productId;
       if (rootElement.value) {
-        console.log("product info:", rootElement.value.dataset.productInfo)
         try {
+          productInfo = "{" + rootElement.value.dataset.productInfo + "}";
+          console.log("product info:", rootElement.value.dataset.productInfo)
           processorType.value = JSON.parse(rootElement.value.dataset.productTags).filter(el =>  el.split("processor_type:")[1]);
           console.log('product in vue', processorType);
         } catch (e) {

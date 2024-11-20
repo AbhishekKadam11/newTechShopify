@@ -35,19 +35,23 @@
       assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
       assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
       assign param_name = operation.param_name | prepend: 'param_name:' | append: ',' | split: ''
+      assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
+      assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
  
+      assign filter_value_array = '' | split: '' 
       assign opValues = '' | split: '' 
-      assign opTypes = '' | split: '' 
+      assign opCounts = '' | split: '' 
       assign opLabels = '' | split: '' 
       for op in operation.values
         assign opValue = op.value  | prepend: 'opvalue:' | append: ',' | split: ''
-        assign opType = op.type  | prepend: 'optype:' | append: ',' | split: ''
+        assign opCount = op.count  | prepend: 'opcount:' | append: ',' | split: ''
         assign opLabel = op.label  | prepend: 'oplabel:' | append: ',' | split: ''
         assign opValues = opValues | concat: opValue
-        assign opTypes = opTypes | concat: opType
-        assign opLabels = opLabels | concat: opType
+        assign opCounts = opCounts | concat: opCount
+        assign opLabels = opLabels | concat: opLabel
+        assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels
       endfor
-      assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: url_to_remove | concat: url_to_add | concat: opValues | concat: opTypes | concat: opLabels
+      assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
    endfor
 -%}
 {% comment %} assign controllerName = operation.label | prepend: 'label:' | append: ',' | split: '' {% endcomment %}
