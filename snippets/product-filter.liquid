@@ -43,9 +43,9 @@
       assign opCounts = '' | split: '' 
       assign opLabels = '' | split: '' 
       for op in operation.values
-        assign opValue = op.value  | prepend: 'opvalue:' | append: ',' | split: ''
-        assign opCount = op.count  | prepend: 'opcount:' | append: ',' | split: ''
-        assign opLabel = op.label  | prepend: 'oplabel:' | append: ',' | split: ''
+        assign opValue = op.value  | prepend: 'op-value:' | append: ',' | split: ''
+        assign opCount = op.count  | prepend: 'op-count:' | append: ',' | split: ''
+        assign opLabel = op.label  | prepend: 'op-label:' | append: ',' | split: ''
         assign opValues = opValues | concat: opValue
         assign opCounts = opCounts | concat: opCount
         assign opLabels = opLabels | concat: opLabel
@@ -56,7 +56,7 @@
 -%}
 {% comment %} assign controllerName = operation.label | prepend: 'label:' | append: ',' | split: '' {% endcomment %}
 <vue-app data-vue="ProductFilter">
-  <div ref="rootElement" data-product-tags="{{ productTags  }}" data-product-info="{{controllers}}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <div ref="rootElement" data-product-tags="{{ productTags  }}" data-product-info="{{ controllers  }}" class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
