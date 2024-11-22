@@ -29,8 +29,8 @@
   endif
 
    assign controllers = '' | split: '' 
-   for operation in results.filters 
-      assign lableName = operation.label | prepend: 'label:' | append: ',' | split: ''
+   for operation in results.filters
+      assign lableName = operation.label | prepend: 'label:' | prepend: 'start=' | append: ',' | split: ''
       assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
       assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
       assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
@@ -50,8 +50,8 @@
         assign opCounts = opCounts | concat: opCount
         assign opLabels = opLabels | concat: opLabel
         assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels
-      endfor
-      assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
+      endfor 
+      assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array 
    endfor
 -%}
 {% comment %} assign controllerName = operation.label | prepend: 'label:' | append: ',' | split: '' {% endcomment %}
