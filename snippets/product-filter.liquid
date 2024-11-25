@@ -38,18 +38,24 @@
     assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
     assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
 
-    assign filter_value_array = '' | split: ''
+    assign filter_value_array = '' | prepend: 'startValues=' | split: ''
     assign opValues = '' | split: ''
     assign opCounts = '' | split: ''
     assign opLabels = '' | split: ''
+    assign opActives = '' | split: ''
+    assign opParam_name = '' | split: ''
     for op in operation.values
-      assign opValue = op.value | prepend: 'op-value:' | append: ',' | split: ''
-      assign opCount = op.count | prepend: 'op-count:' | append: ',' | split: ''
-      assign opLabel = op.label | prepend: 'op-label:' | append: ',' | split: ''
+      assign opValue = op.value | prepend: 'value:' | append: ',' | split: ''
+      assign opCount = op.count | prepend: 'count:' | append: ',' | split: ''
+      assign opLabel = op.label | prepend: 'label:' | append: ',' | split: ''
+      assign opActive = op.active | prepend: 'active:' | append: ',' | split: ''
+      assign opParam_name = op.param_name | prepend: 'param_name:' | append: ',' | split: ''
       assign opValues = opValues | concat: opValue
       assign opCounts = opCounts | concat: opCount
       assign opLabels = opLabels | concat: opLabel
-      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels
+      assign opActives = opActives | concat: opActive
+      assign opParam_name = opParam_name | concat: opParam_name
+      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_name
     endfor
     assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
   endfor
@@ -89,7 +95,7 @@
           {% comment %} <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> {% endcomment %}
           {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
 
-          <div v-for="(filter, i) in prductFilters" :key="i">
+          <div v-for="(filter, index) in prductFilters" :key="i">
             {% liquid
               assign total_active_values = total_active_values | plus: filter.active_values.size
               assign presentation = filter.presentation | default: default_presentation
@@ -108,8 +114,8 @@
                 <details
                   id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                   class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-                  data-index="{{ forloop.index }}"
-                  {% if filter_type == 'vertical' and forloop.index == 1 %}
+                  data-index="index"
+                  {% if filter_type == 'vertical' and index == 1 %}
                     open
                   {% endif %}
                 >
@@ -135,7 +141,7 @@
                     </div>
                   </summary>
                   <div
-                    id="Facet-{{ forloop.index }}-{{ section.id }}"
+                    id="Facet-${ index }-{{ section.id }}"
                     class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
                   >
                     {%- if filter_type != 'vertical' -%}
@@ -151,16 +157,16 @@
                           {%- endif -%}
                         </div>
                         <facet-remove>
-                          <a href="{{ filter.url_to_remove }}" class="facets__reset link underlined-link">
+                          <a href="filter.url_to_remove " class="facets__reset link underlined-link">
                             {{ 'products.facets.reset' | t }}
                           </a>
                         </facet-remove>
                       </div>
                     {%- endif -%}
                     <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                      <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                      <legend class="visually-hidden"><label>${filter.label}</label></legend>
                       {%- liquid
-                        assign sorted_values = filter.values
+                        assign sorted_values = "filter.values"
                         # Keep the selected values grouped together when operator is AND
                         if filter.operator == 'AND'
                           assign active_filter_values = filter.values | where: 'active', true
@@ -168,6 +174,7 @@
                           assign sorted_values = active_filter_values | concat: inactive_filter_values
                         endif
                       -%}
+                       test {{ sorted_values }}
                       <ul
                         class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
                         role="list"

@@ -27,7 +27,7 @@ export default {
             })
             Object.keys(item).length > 0 ? prductFilters.value.push(item) : null;
           })
-          console.log("prductFilters =>",  prductFilters);
+          console.log("prductFilters =>",  prductFilters.value);
         } catch (e) {
           console.log("prductFilters e=>", e);
           throw new Error("Unable to process product tags", e);
