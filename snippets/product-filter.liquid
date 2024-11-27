@@ -38,32 +38,54 @@
     assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
     assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
 
-    assign filter_value_array = '' | prepend: 'startValues=' | split: ''
+    assign filter_value_array = '' | split: ''
     assign opValues = '' | split: ''
     assign opCounts = '' | split: ''
     assign opLabels = '' | split: ''
     assign opActives = '' | split: ''
-    assign opParam_name = '' | split: ''
-    assign opSwatches = '' | split: ''
+    assign opParam_names = '' | split: ''
     for op in operation.values
-      assign opValue = op.value | prepend: 'value:' | append: ',' | split: ''
-      assign opCount = op.count | prepend: 'count:' | append: ',' | split: ''
-      assign opLabel = op.label | prepend: 'label:' | append: ',' | split: ''
-      assign opActive = op.active | prepend: 'active:' | append: ',' | split: ''
-      assign opParam_name = op.param_name | prepend: 'param_name:' | append: ',' | split: ''
-      assign opSwatch = op.swatch | prepend: 'swatch:' | append: ',' | split: ''
+      assign opValue = op.value | prepend: 'op-value:' | append: ',' | split: ''
+      assign opCount = op.count | prepend: 'op-count:' | append: ',' | split: ''
+      assign opLabel = op.label | prepend: 'op-label:' | append: ',' | split: ''
+      assign opActive = op.active | prepend: 'op-active:' | append: ',' | split: ''
+      assign opParam_name = op.param_name | prepend: 'op-param_name:'| append: ',' | split: ''
       assign opValues = opValues | concat: opValue
       assign opCounts = opCounts | concat: opCount
       assign opLabels = opLabels | concat: opLabel
       assign opActives = opActives | concat: opActive
-      assign opParam_name = opParam_name | concat: opParam_name
-      assign opSwatches = opSwatches | concat: opSwatch
-      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_name | concat: opSwatches
+      assign opParam_names = opParam_names | concat: opParam_name 
+      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_names   
     endfor
     assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
   endfor
 -%}
 
+{% comment %} var result = [];
+filterObj.split('start=').map((e) => {
+            let item = {};
+            e.split(',').map((it) => {
+              if (it) {
+                let keyPair = it?.split(':');
+                let values = [];
+                let inObj = {};
+              //  console.log("keyPair ",keyPair);
+                if (keyPair[0].includes("op")) {
+                 //   console.log("found op-");
+                    let vals = keyPair[0].split("op-")
+                  //   console.log("vals", vals);
+                     inObj[vals[1]] = keyPair[1];
+                     console.log("inObj", inObj);
+                     values.push(inObj);
+                 }
+                 item["values"] = values;
+                item[keyPair[0]] = keyPair[1];
+              }
+            })
+            Object.keys(item).length > 0 ? result.push(item) : null;
+          })
+          
+  console.log(result); {% endcomment %}
 <vue-app data-vue="ProductFilter">
   <div
     ref="rootElement"

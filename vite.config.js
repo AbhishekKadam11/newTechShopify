@@ -65,7 +65,7 @@ export default {
     shopify({
       themeRoot: './',
       sourceCodeDir: "src",
-      entrypointsDir: 'src/entrypoints',
+      entrypointsDir: 'src/entrypoints/templates',
       additionalEntrypoints: ['src/entrypoints/*.js',
         'src/scripts/utils/*.js',
         'src/scripts/customFilters/*.js',
