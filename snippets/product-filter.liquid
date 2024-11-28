@@ -49,43 +49,45 @@
       assign opCount = op.count | prepend: 'op-count:' | append: ',' | split: ''
       assign opLabel = op.label | prepend: 'op-label:' | append: ',' | split: ''
       assign opActive = op.active | prepend: 'op-active:' | append: ',' | split: ''
-      assign opParam_name = op.param_name | prepend: 'op-param_name:'| append: ',' | split: ''
+      assign opParam_name = op.param_name | prepend: 'op-param_name:' | append: ',' | split: ''
       assign opValues = opValues | concat: opValue
       assign opCounts = opCounts | concat: opCount
       assign opLabels = opLabels | concat: opLabel
       assign opActives = opActives | concat: opActive
-      assign opParam_names = opParam_names | concat: opParam_name 
-      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_names   
+      assign opParam_names = opParam_names | concat: opParam_name
+      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_names
     endfor
     assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
   endfor
 -%}
 
-{% comment %} var result = [];
-filterObj.split('start=').map((e) => {
-            let item = {};
-            e.split(',').map((it) => {
-              if (it) {
-                let keyPair = it?.split(':');
-                let values = [];
-                let inObj = {};
-              //  console.log("keyPair ",keyPair);
-                if (keyPair[0].includes("op")) {
-                 //   console.log("found op-");
-                    let vals = keyPair[0].split("op-")
-                  //   console.log("vals", vals);
-                     inObj[vals[1]] = keyPair[1];
-                     console.log("inObj", inObj);
-                     values.push(inObj);
-                 }
-                 item["values"] = values;
-                item[keyPair[0]] = keyPair[1];
-              }
+{% comment %}
+  var result = [];
+  filterObj.split('start=').map((e) => {
+              let item = {};
+              e.split(',').map((it) => {
+                if (it) {
+                  let keyPair = it?.split(':');
+                  let values = [];
+                  let inObj = {};
+                //  console.log("keyPair ",keyPair);
+                  if (keyPair[0].includes("op")) {
+                   //   console.log("found op-");
+                      let vals = keyPair[0].split("op-")
+                    //   console.log("vals", vals);
+                       inObj[vals[1]] = keyPair[1];
+                       console.log("inObj", inObj);
+                       values.push(inObj);
+                   }
+                   item["values"] = values;
+                  item[keyPair[0]] = keyPair[1];
+                }
+              })
+              Object.keys(item).length > 0 ? result.push(item) : null;
             })
-            Object.keys(item).length > 0 ? result.push(item) : null;
-          })
-          
-  console.log(result); {% endcomment %}
+
+    console.log(result);
+{% endcomment %}
 <vue-app data-vue="ProductFilter">
   <div
     ref="rootElement"
@@ -190,20 +192,49 @@ filterObj.split('start=').map((e) => {
                     {%- endif -%}
                     <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
                       <legend class="visually-hidden"><label>${filter.label}</label></legend>
-                      {%- liquid
-                        assign sorted_values = filter.values
-                        # Keep the selected values grouped together when operator is AND
-                        if filter.operator == 'AND'
-                          assign active_filter_values = filter.values | where: 'active', true
-                          assign inactive_filter_values = filter.values | where: 'active', false
-                          assign sorted_values = active_filter_values | concat: inactive_filter_values
-                        endif
-                      -%}
-                     
+                      <span :set="sorted_values = filter.values"></span>
+                      {% comment %} <span v-if="filter.operator == 'OR'"> test123 </span> {% endcomment %}
+
+                      {% comment %}
+                        {%- liquid
+                          assign sorted_values = filter.values
+                          # Keep the selected values grouped together when operator is AND
+                          if filter.operator == 'AND'
+                            assign active_filter_values = filter.values | where: 'active', true
+                            assign inactive_filter_values = filter.values | where: 'active', false
+                            assign sorted_values = active_filter_values | concat: inactive_filter_values
+                          endif
+                        -%}
+                      {% endcomment %}
+
                       <ul
                         class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
                         role="list"
                       >
+                        <div v-for="(value, index) in filter.values">
+                          {% comment %} template variable declaration  {% endcomment %}
+                          <span :set="input_id = 'Filter-' + filter.param_name + '-' + index"> </span>
+                          <span :set="is_disabled = false">
+                            <span v-if="value.count == 0 && value.active == false">
+                              <span :set="is_disabled = true"></span>
+                            </span>
+                          </span>
+                          <span :set="label_class = 'facets__label facet-checkbox'">
+                            <span v-if="is_disabled">
+                              <span :set="label_class = label_class + ' disabled'"></span>
+                            </span>
+                            <span v-else="value.active">
+                              <span :set="label_class = label_class + ' active'"></span>
+                            </span>
+                          </span>
+                          <span :set="text_value_class = 'list-menu__item facets__item'">
+                            <span v-if="index > {{show_more_number}} && {{filter_type}} == 'vertical'">
+                              <span :set="text_value_class = text_value_class + ' show-more-item hidden'"></span>
+                            </span>
+                          </span>
+
+                        </div>
+
                         {%- for value in sorted_values -%}
                           {% liquid
                             assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
@@ -214,8 +245,8 @@ filterObj.split('start=').map((e) => {
                           %}
                           {%- capture label_class -%}
                             facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
-                            {%- endcapture -%}
-
+                          {%- endcapture -%}    
+                        
                           {%- capture text_value -%}
                               <span class="facet-checkbox__text" aria-hidden="true">
                                 <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
