@@ -37,6 +37,7 @@
     assign param_name = operation.param_name | prepend: 'param_name:' | append: ',' | split: ''
     assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
     assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
+    assign active_values = operation.active_values | prepend: 'active_values:' | append: ',' | split: ''
 
     assign filter_value_array = '' | split: ''
     assign opValues = '' | split: ''
@@ -57,7 +58,7 @@
       assign opParam_names = opParam_names | concat: opParam_name
       assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_names
     endfor
-    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: filter_value_array
+    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array
   endfor
 -%}
 
@@ -175,7 +176,8 @@
                       <div class="facets__header">
                         <div>
                           <span class="facets__selected">
-                            {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}}
+                            {% comment %} {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}} {% endcomment %}
+                            <label>${filter.active_values.length} Selected</label>
                           </span>
                           {%- if filter.operator == 'AND' -%}
                             <span class="facets__and-helptext">
@@ -185,7 +187,7 @@
                         </div>
                         <facet-remove>
                           <a href="filter.url_to_remove " class="facets__reset link underlined-link">
-                            {{ 'products.facets.reset' | t }}
+                            {{ 'products.facets.reset' | t }} 
                           </a>
                         </facet-remove>
                       </div>
@@ -233,60 +235,30 @@
                             </span>
                           </span>
 
-                        </div>
-
-                        {%- for value in sorted_values -%}
-                          {% liquid
-                            assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
-                            assign is_disabled = false
-                            if value.count == 0 and value.active == false
-                              assign is_disabled = true
-                            endif
-                          %}
-                          {%- capture label_class -%}
-                            facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
-                          {%- endcapture -%}    
-                        
-                          {%- capture text_value -%}
-                              <span class="facet-checkbox__text" aria-hidden="true">
-                                <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
-                              </span>
-                              <span class="visually-hidden">
-                                {{- value.label | escape }} (
-                                {%- if value.count == 1 -%}
-                                  {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
-                                {%- else -%}
-                                  {{- 'products.facets.product_count_simple.other' | t: count: value.count -}}
-                                {%- endif -%}
-                                )
-                              </span>
-                            {%- endcapture -%}
-
-                          <li class="list-menu__item facets__item{% if forloop.index > show_more_number and filter_type == 'vertical' %} show-more-item hidden{% endif %}">
+                          <li class="text_value_class">
                             {%- if presentation == 'swatch' -%}
-                              <div class="{{ label_class }}">
+                              <div class="label_class">
                                 <div class="swatch-input-wrapper">
                                   {% render 'swatch-input',
-                                    id: input_id,
+                                    id: "input_id",
                                     type: 'checkbox',
-                                    name: value.param_name,
-                                    value: value.value,
+                                    name: "value.param_name",
+                                    value: "value.value",
                                     product_form_id: 'FacetFiltersForm',
-                                    swatch: value.swatch,
-                                    checked: value.active,
-                                    disabled: is_disabled
+                                    swatch: "value.swatch",
+                                    checked: "value.active",
+                                    disabled: "is_disabled"
                                   %}
                                 </div>
-
-                                {{ text_value }}
+                                 ${value.param_name} 
                               </div>
                             {%- else -%}
-                              <label for="{{ input_id }}" class="{{ label_class }}">
+                              <label for="input_id" class="label_class">
                                 <input
                                   type="checkbox"
-                                  name="{{ value.param_name }}"
-                                  value="{{ value.value }}"
-                                  id="{{ input_id }}"
+                                  name="value.param_name"
+                                  value="value.value"
+                                  id="input_id"
                                   {% if value.active %}
                                     checked
                                   {% endif %}
@@ -297,13 +269,9 @@
 
                                 {%- if presentation == 'image' -%}
                                   <div class="facets__image-wrapper">
-                                    {%- if value.image -%}
-                                      {{
-                                        value.image
-                                        | image_url: width: 300
-                                        | image_tag: class: 'facets__image', alt: value.alt
-                                      }}
-                                    {%- endif -%}
+                                    <span v-if="value.image">
+                                      <img src="value.image" width='300' class='facets__image' height="300" alt="value.alt" />
+                                    </span>
                                   </div>
                                 {%- else -%}
                                   <svg
@@ -333,11 +301,12 @@
                                   </svg>
                                 {%- endif -%}
 
-                                {{ text_value }}
+                                ${ value.param_name }
                               </label>
                             {%- endif -%}
                           </li>
-                        {%- endfor -%}
+
+                        </div>
                       </ul>
                     </fieldset>
                     {%- if filter.values.size > show_more_number and filter_type == 'vertical' -%}
