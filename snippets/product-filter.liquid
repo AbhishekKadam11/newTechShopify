@@ -250,7 +250,7 @@
                                     disabled: "is_disabled"
                                   %}
                                 </div>
-                                 ${value.param_name} 
+                                 ${ value.label } 
                               </div>
                             {%- else -%}
                               <label for="input_id" class="label_class">
@@ -301,8 +301,9 @@
                                   </svg>
                                 {%- endif -%}
 
-                                ${ value.param_name }
-                              </label>
+                                ${ value.label } 
+                              </label> 
+                              
                             {%- endif -%}
                           </li>
 
