@@ -30,7 +30,7 @@
 
   assign controllers = '' | split: ''
   for operation in results.filters
-    assign lableName = operation.label | prepend: 'label:' | prepend: 'start=' | append: ',' | split: ''
+    assign lableName = operation.label | prepend: '{label:'  | append: ',' | split: ''
     assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
     assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
     assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
@@ -38,27 +38,27 @@
     assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
     assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
     assign active_values = operation.active_values | prepend: 'active_values:' | append: ',' | split: ''
-
+ 
     assign filter_value_array = '' | split: ''
-    assign opValues = '' | split: ''
-    assign opCounts = '' | split: ''
-    assign opLabels = '' | split: ''
-    assign opActives = '' | split: ''
-    assign opParam_names = '' | split: ''
+
     for op in operation.values
-      assign opValue = op.value | prepend: 'op-value:' | append: ',' | split: ''
-      assign opCount = op.count | prepend: 'op-count:' | append: ',' | split: ''
-      assign opLabel = op.label | prepend: 'op-label:' | append: ',' | split: ''
-      assign opActive = op.active | prepend: 'op-active:' | append: ',' | split: ''
-      assign opParam_name = op.param_name | prepend: 'op-param_name:' | append: ',' | split: ''
-      assign opValues = opValues | concat: opValue
-      assign opCounts = opCounts | concat: opCount
-      assign opLabels = opLabels | concat: opLabel
-      assign opActives = opActives | concat: opActive
-      assign opParam_names = opParam_names | concat: opParam_name
-      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabels | concat: opActives | concat: opParam_names
+    if forloop.index == 1
+      assign opValue = op.value | prepend: 'values:[{value:' | append: ',' | split: ''
+    else 
+      assign opValue = op.value | prepend: '{value:' | append: ',' | split: ''
+    endif
+      assign opCount = op.count | prepend: 'count:' | append: ',' | split: ''
+      assign opLabel = op.label | prepend: 'label:' | append: ',' | split: ''
+      assign opActive = op.active | prepend: 'active:' | append: ',' | split: ''
+     
+      if forloop.index == operation.values.size
+        assign opParam_name = op.param_name | prepend: 'param_name:' | append: '}]},' | split: ''
+      else 
+        assign opParam_name = op.param_name | prepend: 'param_name:' | append: '},' | split: ''
+      endif
+      assign filter_value_array = filter_value_array  | concat: opValue | concat: opCount | concat: opLabel | concat: opActive | concat: opParam_name
     endfor
-    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array
+    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array 
   endfor
 -%}
 
