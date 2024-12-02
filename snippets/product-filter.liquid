@@ -30,7 +30,7 @@
 
   assign controllers = '' | split: ''
   for operation in results.filters
-    assign lableName = operation.label | prepend: '{label:'  | append: ',' | split: ''
+    assign lableName = operation.label | prepend: 'start=label:'  | append: ',' | split: ''
     assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
     assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
     assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
@@ -43,19 +43,14 @@
 
     for op in operation.values
     if forloop.index == 1
-      assign opValue = op.value | prepend: 'values:[{value:' | append: ',' | split: ''
+      assign opValue = op.value | prepend: 'values:value:' | append: ',' | split: ''
     else 
-      assign opValue = op.value | prepend: '{value:' | append: ',' | split: ''
+      assign opValue = op.value | prepend: 'value:' | append: ',' | split: ''
     endif
       assign opCount = op.count | prepend: 'count:' | append: ',' | split: ''
       assign opLabel = op.label | prepend: 'label:' | append: ',' | split: ''
       assign opActive = op.active | prepend: 'active:' | append: ',' | split: ''
-     
-      if forloop.index == operation.values.size
-        assign opParam_name = op.param_name | prepend: 'param_name:' | append: '}]},' | split: ''
-      else 
-        assign opParam_name = op.param_name | prepend: 'param_name:' | append: '},' | split: ''
-      endif
+      assign opParam_name = op.param_name | prepend: 'param_name:' | append: ',' | split: ''
       assign filter_value_array = filter_value_array  | concat: opValue | concat: opCount | concat: opLabel | concat: opActive | concat: opParam_name
     endfor
     assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array 
@@ -63,31 +58,18 @@
 -%}
 
 {% comment %}
-  var result = [];
-  filterObj.split('start=').map((e) => {
-              let item = {};
-              e.split(',').map((it) => {
-                if (it) {
-                  let keyPair = it?.split(':');
-                  let values = [];
-                  let inObj = {};
-                //  console.log("keyPair ",keyPair);
-                  if (keyPair[0].includes("op")) {
-                   //   console.log("found op-");
-                      let vals = keyPair[0].split("op-")
-                    //   console.log("vals", vals);
-                       inObj[vals[1]] = keyPair[1];
-                       console.log("inObj", inObj);
-                       values.push(inObj);
-                   }
-                   item["values"] = values;
-                  item[keyPair[0]] = keyPair[1];
-                }
-              })
-              Object.keys(item).length > 0 ? result.push(item) : null;
-            })
+let result = [];
 
-    console.log(result);
+filterObj.split("start=").forEach((item, index) => {
+    // console.log("item", item)
+    if(item) {
+        item.split(",").forEach((e, i)=>{
+            console.log("e", e, "index", index)     
+        })
+    }
+})
+
+console.log(result);
 {% endcomment %}
 <vue-app data-vue="ProductFilter">
   <div
