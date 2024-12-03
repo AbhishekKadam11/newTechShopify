@@ -42,15 +42,11 @@
     assign filter_value_array = '' | split: ''
 
     for op in operation.values
-    if forloop.index == 1
-      assign opValue = op.value | prepend: 'values:value:' | append: ',' | split: ''
-    else 
-      assign opValue = op.value | prepend: 'value:' | append: ',' | split: ''
-    endif
-      assign opCount = op.count | prepend: 'count:' | append: ',' | split: ''
-      assign opLabel = op.label | prepend: 'label:' | append: ',' | split: ''
-      assign opActive = op.active | prepend: 'active:' | append: ',' | split: ''
-      assign opParam_name = op.param_name | prepend: 'param_name:' | append: ',' | split: ''
+      assign opValue = op.value | prepend: 'values=value:' | append: ',' | split: ''
+      assign opCount = op.count | prepend: 'values=count:' | append: ',' | split: ''
+      assign opLabel = op.label | prepend: 'values=label:' | append: ',' | split: ''
+      assign opActive = op.active | prepend: 'values=active:' | append: ',' | split: ''
+      assign opParam_name = op.param_name | prepend: 'values=param_name:' | append: ',' | split: ''
       assign filter_value_array = filter_value_array  | concat: opValue | concat: opCount | concat: opLabel | concat: opActive | concat: opParam_name
     endfor
     assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array 
@@ -61,11 +57,36 @@
 let result = [];
 
 filterObj.split("start=").forEach((item, index) => {
-    // console.log("item", item)
+     let obj = {}; let KeyPair =[] ;  let values = []; let innerObj = {};
     if(item) {
         item.split(",").forEach((e, i)=>{
-            console.log("e", e, "index", index)     
+          
+          //  console.log("e", e, "index", index)
+            if(e) {
+                 KeyPair = e.split(":");
+
+                if (KeyPair[0].includes("values=")) {
+                   if(KeyPair[0].split("values=")[1]) {
+                       let innerKey = KeyPair[0].split("values=")[1];
+                        innerObj[innerKey] = KeyPair[1];
+                     //   console.log("innerKey", innerKey)
+                        if(innerKey === 'param_name') {
+                            values.push(innerObj);
+                            innerObj = {};
+                        }
+                   }
+                 
+                } else {
+                    obj[KeyPair[0]] = KeyPair[1];
+                }
+                 
+            }
+            
         })
+    }
+    if(values.length > 0 || Object.keys(obj).length > 0) {
+        obj['values'] = JSON.stringify(values);
+        result.push(obj)
     }
 })
 

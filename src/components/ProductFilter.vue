@@ -16,38 +16,35 @@ export default {
       if (rootElement.value) {
         try {
           let filterObj = rootElement.value.dataset.productInfo.substring(0, rootElement.value.dataset.productInfo.length - 1);
-          console.log("product info:", filterObj)
-          // filterObj.split('start=').map((e) => {
-          //   let item = {};
-          //   e.split(',').map((it) => {
-          //     if (it) {
-          //       let keyPair = it?.split(':');
-          //       item[keyPair[0]] = keyPair[1];
-          //     }
-          //   })
-          //   Object.keys(item).length > 0 ? prductFilters.value.push(item) : null;
-          // })
-          filterObj.split('start=').map((e) => {
-            let item = {};
-            let inObj = {};
-            e.split(',').map((it) => {
-              if (it) {
-                let keyPair = it?.split(':');
-                let values = [];
-                if (keyPair[0].includes("op-")) {
-                  let vals = keyPair[0].split("op-")
-                  inObj[vals[1]] = keyPair[1];
-                  values.push(inObj);
-                } else {
-                  item[keyPair[0]] = keyPair[1];
-                }
-                item["values"] = values;
+          filterObj.split("start=").forEach((item, index) => {
+            let obj = {}; let KeyPair = []; let values = []; let innerObj = {};
+            if (item) {
+              item.split(",").forEach((e, i) => {
+                if (e) {
+                  KeyPair = e.split(":");
+                  if (KeyPair[0].includes("values=")) {
+                    if (KeyPair[0].split("values=")[1]) {
+                      let innerKey = KeyPair[0].split("values=")[1];
+                      innerObj[innerKey] = KeyPair[1];
+                      //   console.log("innerKey", innerKey)
+                      if (innerKey === 'param_name') {
+                        values.push(innerObj);
+                        innerObj = {};
+                      }
+                    }
 
-              }
-            })
-            Object.keys(item).length > 0 ? prductFilters.value.push(item) : null;
+                  } else {
+                    obj[KeyPair[0]] = KeyPair[1];
+                  }
+                }
+              })
+            }
+            if (values.length > 0 || Object.keys(obj).length > 0) {
+              obj['values'] = JSON.stringify(values);
+              prductFilters.value.push(obj)
+            }
           });
-          console.log("prductFilters =>", prductFilters.value);
+          console.log("prductFilters =>", prductFilters);
         } catch (e) {
           console.log("prductFilters e=>", e);
           throw new Error("Unable to process product tags", e);
