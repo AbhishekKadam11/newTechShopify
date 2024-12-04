@@ -40,7 +40,7 @@ export default {
               })
             }
             if (values.length > 0 || Object.keys(obj).length > 0) {
-              obj['values'] = JSON.stringify(values);
+              obj['values'] = values;
               prductFilters.value.push(obj)
             }
           });

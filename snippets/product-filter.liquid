@@ -256,19 +256,19 @@ console.log(result);
                                  ${ value.label } 
                               </div>
                             {%- else -%}
-                              <label for="input_id" class="label_class">
-                                <input
+                              <div class="flex items-center">
+                              <label for="input_id" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {% comment %} <input
                                   type="checkbox"
                                   name="value.param_name"
                                   value="value.value"
                                   id="input_id"
-                                  {% if value.active %}
-                                    checked
-                                  {% endif %}
-                                  {% if is_disabled %}
-                                    disabled
-                                  {% endif %}
-                                >
+                                  checked="value.active"
+                                  disabled="is_disabled"
+                                > {% endcomment %}
+
+                             
+                                <input id="input_id" type="checkbox" name="value.param_name"  checked value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
 
                                 {%- if presentation == 'image' -%}
                                   <div class="facets__image-wrapper">
@@ -277,7 +277,7 @@ console.log(result);
                                     </span>
                                   </div>
                                 {%- else -%}
-                                  <svg
+                                  {% comment %} <svg
                                     width="1.6rem"
                                     height="1.6rem"
                                     viewBox="0 0 16 16"
@@ -301,12 +301,12 @@ console.log(result);
                                       stroke-width="1.75"
                                       stroke-linecap="round"
                                       stroke-linejoin="round" />
-                                  </svg>
+                                  </svg> {% endcomment %}
                                 {%- endif -%}
 
                                 ${ value.label } 
                               </label> 
-                              
+                            </div>
                             {%- endif -%}
                           </li>
 
