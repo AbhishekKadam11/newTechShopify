@@ -103,13 +103,6 @@ console.log(result);
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
       >
-        {% comment %}
-          <div>
-            <li v-for="item in prductFilters">
-              ${ item.label }
-            </li>
-          </div>
-        {% endcomment %}
         {% comment %} Heading is the first tabbable element on filter type horizontal {% endcomment %}
         <div
           {% if filter_type == 'horizontal' %}
@@ -213,7 +206,7 @@ console.log(result);
                       {% endcomment %}
 
                       <ul
-                        class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
+                        class=" list-unstyled"
                         role="list"
                       >
                         <div v-for="(value, index) in filter.values">
@@ -224,7 +217,7 @@ console.log(result);
                               <span :set="is_disabled = true"></span>
                             </span>
                           </span>
-                          <span :set="label_class = 'facets__label facet-checkbox'">
+                          <span :set="label_class = ''">
                             <span v-if="is_disabled">
                               <span :set="label_class = label_class + ' disabled'"></span>
                             </span>
@@ -256,56 +249,21 @@ console.log(result);
                                  ${ value.label } 
                               </div>
                             {%- else -%}
-                              <div class="flex items-center">
-                              <label for="input_id" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                {% comment %} <input
-                                  type="checkbox"
-                                  name="value.param_name"
-                                  value="value.value"
-                                  id="input_id"
-                                  checked="value.active"
-                                  disabled="is_disabled"
-                                > {% endcomment %}
+                              
+                              <div class="flex items-center pt-3 pb-3 pl-5">
+                                <label for="input_id" class="ms-2 font-medium text-lg text-gray-900"> 
+                                  <input id="input_id" :key="index" type="checkbox" :name="value.param_name" :checked="value.active" :value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" >
 
-                             
-                                <input id="input_id" type="checkbox" name="value.param_name"  checked value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                  {%- if presentation == 'image' -%}
+                                    <div class="facets__image-wrapper">
+                                      <span v-if="value.image">
+                                        <img src="value.image" width='300' class='facets__image' height="300" alt="value.alt" />
+                                      </span>
+                                    </div>
+                                  {%- endif -%}
 
-                                {%- if presentation == 'image' -%}
-                                  <div class="facets__image-wrapper">
-                                    <span v-if="value.image">
-                                      <img src="value.image" width='300' class='facets__image' height="300" alt="value.alt" />
-                                    </span>
-                                  </div>
-                                {%- else -%}
-                                  {% comment %} <svg
-                                    width="1.6rem"
-                                    height="1.6rem"
-                                    viewBox="0 0 16 16"
-                                    aria-hidden="true"
-                                    focusable="false"
-                                  >
-                                    <rect width="16" height="16" stroke="currentColor" fill="none" stroke-width="1"></rect>
-                                  </svg>
-
-                                  <svg
-                                    aria-hidden="true"
-                                    class="icon icon-checkmark"
-                                    width="1.1rem"
-                                    height="0.7rem"
-                                    viewBox="0 0 11 7"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path d="M1.5 3.5L2.83333 4.75L4.16667 6L9.5 1"
-                                      stroke="currentColor"
-                                      stroke-width="1.75"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round" />
-                                  </svg> {% endcomment %}
-                                {%- endif -%}
-
-                                ${ value.label } 
-                              </label> 
+                                  ${ value.label }
+                                </label> 
                             </div>
                             {%- endif -%}
                           </li>
