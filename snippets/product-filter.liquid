@@ -271,11 +271,11 @@ console.log(result);
                         </div>
                       </ul>
                     </fieldset>
-                    {%- if filter.values.size > show_more_number and filter_type == 'vertical' -%}
+                    <div v-if="filter.values.size > {{show_more_number}} && {{filter_type}} == 'vertical'">
                       <show-more-button>
                         <button
                           class="button-show-more link underlined-link"
-                          id="Show-More-{{ forloop.index }}-{{ section.id }}"
+                          id="Show-More-index-{{ section.id }}"
                           type="button"
                         >
                           <span class="label-show-more label-text"
@@ -286,27 +286,29 @@ console.log(result);
                           </span>
                         </button>
                       </show-more-button>
-                    {%- endif %}
+                    </div>
+
                   </div>
                 </details>
               </div>
               <div v-case="price_range">
+                <span :set="detailsId = filter.param_name"></span>
                 <details
-                  id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
+                  id="Details-detailsId-{{ section.id }}"
                   class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-                  data-index="{{ forloop.index }}"
-                  {% if filter_type == 'vertical' and forloop.index == 1 %}
+                  data-index="index"
+                  {% if filter_type == 'vertical' and index == 1 %}
                     open
                   {% endif %}
                 >
                   <summary class="facets__summary caption-large focus-offset">
                     <div>
-                      <span>{{ filter.label | escape }}</span>
+                      <span>${ filter.label }</span>
                       {% render 'icon-caret' %}
                     </div>
                   </summary>
                   <div
-                    id="Facet-{{ forloop.index }}-{{ section.id }}"
+                    id="Facet-${ index }-{{ section.id }}"
                     class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
                   >
                     <div class="{% if filter_type == 'horizontal' %}facets__header{% else %}facets__header-vertical{% endif %}">
