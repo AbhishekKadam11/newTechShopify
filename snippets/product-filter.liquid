@@ -119,7 +119,7 @@ console.log(result);
           {% comment %} <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> {% endcomment %}
           {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
 
-          <div v-for="(filter, index) in prductFilters" :key="i">
+          <div v-for="(filter, index) in prductFilters" :key="index">
             {% liquid
               assign total_active_values = total_active_values | plus: filter.active_values.size
               assign presentation = filter.presentation | default: default_presentation
@@ -135,11 +135,12 @@ console.log(result);
 
             <div v-switch="filter.type">
               <div v-case="list">
+                <div v-if="index !== 1">
                 <details
                   id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                   class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                   data-index="index"
-                  {% if filter_type == 'vertical' and index == 1 %}
+                  {% if filter_type == 'vertical' %}
                     open
                   {% endif %}
                 >
@@ -251,8 +252,8 @@ console.log(result);
                             {%- else -%}
                               
                               <div class="flex items-center pt-3 pb-3 pl-5">
-                                <label for="input_id" class="ms-2 font-medium text-lg text-gray-900"> 
-                                  <input id="input_id" :key="index" type="checkbox" :name="value.param_name" :checked="value.active" :value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" >
+                                <label for="input_id" class="ms-2 font-medium text-lg text-gray-900"> ${value.active}
+                                  <input id="input_id" :key="index" type="checkbox" :name="value.param_name" checked="value.active" :value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" >
 
                                   {%- if presentation == 'image' -%}
                                     <div class="facets__image-wrapper">
@@ -287,48 +288,50 @@ console.log(result);
                         </button>
                       </show-more-button>
                     </div>
-
                   </div>
                 </details>
+                </div>
               </div>
               <div v-case="price_range">
                 <span :set="detailsId = filter.param_name"></span>
-                <details
-                  id="Details-detailsId-{{ section.id }}"
-                  class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-                  data-index="index"
-                  {% if filter_type == 'vertical' and index == 1 %}
-                    open
-                  {% endif %}
-                >
-                  <summary class="facets__summary caption-large focus-offset">
-                    <div>
-                      <span>${ filter.label }</span>
-                      {% render 'icon-caret' %}
-                    </div>
-                  </summary>
-                  <div
-                    id="Facet-${ index }-{{ section.id }}"
-                    class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
+                <div v-if="index === 1">
+                  <details
+                    id="Details-detailsId-{{ section.id }}"
+                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
+                    data-index="index"
+                    {% if filter_type == 'vertical' %}
+                      open
+                    {% endif %}
                   >
-                    <div class="{% if filter_type == 'horizontal' %}facets__header{% else %}facets__header-vertical{% endif %}">
-                      {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
-                      <span class="facets__selected">
-                        {{- 'products.facets.max_price' | t: price: max_price_amount -}}
-                      </span>
-                      {%- if filter_type != 'vertical' -%}
-                        <facet-remove>
-                          <a href="{{ filter.url_to_remove }}" class="facets__reset link underlined-link">
-                            {{ 'products.facets.reset' | t }}
-                          </a>
-                        </facet-remove>
-                      {%- endif -%}
+                    <summary class="facets__summary caption-large focus-offset">
+                      <div>
+                        <span>${ filter.label }</span>
+                        {% render 'icon-caret' %}
+                      </div>
+                    </summary>
+                    <div
+                      id="Facet-${ index }-{{ section.id }}"
+                      class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
+                    >
+                      <div class="{% if filter_type == 'horizontal' %}facets__header{% else %}facets__header-vertical{% endif %}">
+                        {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
+                        <span class="facets__selected">
+                          {{- 'products.facets.max_price' | t: price: max_price_amount -}}
+                        </span>
+                        {%- if filter_type != 'vertical' -%}
+                          <facet-remove>
+                            <a href="filter.url_to_remove" class="facets__reset link underlined-link">
+                              {{ 'products.facets.reset' | t }}
+                            </a>
+                          </facet-remove>
+                        {%- endif -%}
+                      </div>
+                      <price-range class="facets__price">
+                        {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
+                      </price-range>
                     </div>
-                    <price-range class="facets__price">
-                      {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
-                    </price-range>
-                  </div>
-                </details>
+                  </details>
+                </div>
               </div>
             </div>
           </div>
