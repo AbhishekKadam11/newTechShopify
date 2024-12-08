@@ -214,9 +214,10 @@ console.log(result);
                           {% comment %} template variable declaration  {% endcomment %}
                           <span :set="input_id = 'Filter-' + filter.param_name + '-' + index"> </span>
                           <span :set="is_disabled = false">
-                            <span v-if="value.count == 0 && value.active == false">
+                            <span v-if="value.count == 0 && value.active == 'false'">
                               <span :set="is_disabled = true"></span>
                             </span>
+                           
                           </span>
                           <span :set="label_class = ''">
                             <span v-if="is_disabled">
@@ -250,11 +251,11 @@ console.log(result);
                                  ${ value.label } 
                               </div>
                             {%- else -%}
-                              
-                              <div class="flex items-center pt-3 pb-3 pl-5">
-                                <label for="input_id" class="ms-2 font-medium text-lg text-gray-900"> ${value.active}
-                                  <input id="input_id" :key="index" type="checkbox" :name="value.param_name" checked="value.active" :value="value.value" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" >
-
+                            
+                                <div class="flex items-center ps-4 rounded">
+                                  <input :id="input_id" type="checkbox" :name="value.param_name" :disabled="is_disabled" :model="value.active" class="w-5 h-5 text-blue-600 bg-gray-100 rounded focus:ring-blue-500">
+                                  <label for="input_id" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 ">${ value.label } (${value.count})</label>
+                                </div>
                                   {%- if presentation == 'image' -%}
                                     <div class="facets__image-wrapper">
                                       <span v-if="value.image">
@@ -263,9 +264,6 @@ console.log(result);
                                     </div>
                                   {%- endif -%}
 
-                                  ${ value.label }
-                                </label> 
-                            </div>
                             {%- endif -%}
                           </li>
 
