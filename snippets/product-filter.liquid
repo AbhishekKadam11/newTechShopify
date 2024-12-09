@@ -30,7 +30,7 @@
 
   assign controllers = '' | split: ''
   for operation in results.filters
-    assign lableName = operation.label | prepend: 'start=label:'  | append: ',' | split: ''
+    assign lableName = operation.label | prepend: 'start=label:' | append: ',' | split: ''
     assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
     assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
     assign url_to_add = operation.url_to_add | prepend: 'url_to_add:' | append: ',' | split: ''
@@ -38,7 +38,7 @@
     assign presentation = operation.presentation | prepend: 'presentation:' | append: ',' | split: ''
     assign operator = operation.operator | prepend: 'operator:' | append: ',' | split: ''
     assign active_values = operation.active_values | prepend: 'active_values:' | append: ',' | split: ''
- 
+
     assign filter_value_array = '' | split: ''
 
     for op in operation.values
@@ -47,50 +47,50 @@
       assign opLabel = op.label | prepend: 'values=label:' | append: ',' | split: ''
       assign opActive = op.active | prepend: 'values=active:' | append: ',' | split: ''
       assign opParam_name = op.param_name | prepend: 'values=param_name:' | append: ',' | split: ''
-      assign filter_value_array = filter_value_array  | concat: opValue | concat: opCount | concat: opLabel | concat: opActive | concat: opParam_name
+      assign filter_value_array = filter_value_array | concat: opValue | concat: opCount | concat: opLabel | concat: opActive | concat: opParam_name
     endfor
-    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array 
+    assign controllers = controllers | concat: lableName | concat: typeName | concat: param_name | concat: operator | concat: presentation | concat: url_to_remove | concat: url_to_add | concat: active_values | concat: filter_value_array
   endfor
 -%}
 
 {% comment %}
-let result = [];
+  let result = [];
 
-filterObj.split("start=").forEach((item, index) => {
-     let obj = {}; let KeyPair =[] ;  let values = []; let innerObj = {};
-    if(item) {
-        item.split(",").forEach((e, i)=>{
-          
-          //  console.log("e", e, "index", index)
-            if(e) {
-                 KeyPair = e.split(":");
+  filterObj.split("start=").forEach((item, index) => {
+       let obj = {}; let KeyPair =[] ;  let values = []; let innerObj = {};
+      if(item) {
+          item.split(",").forEach((e, i)=>{
 
-                if (KeyPair[0].includes("values=")) {
-                   if(KeyPair[0].split("values=")[1]) {
-                       let innerKey = KeyPair[0].split("values=")[1];
-                        innerObj[innerKey] = KeyPair[1];
-                     //   console.log("innerKey", innerKey)
-                        if(innerKey === 'param_name') {
-                            values.push(innerObj);
-                            innerObj = {};
-                        }
-                   }
-                 
-                } else {
-                    obj[KeyPair[0]] = KeyPair[1];
-                }
-                 
-            }
-            
-        })
-    }
-    if(values.length > 0 || Object.keys(obj).length > 0) {
-        obj['values'] = JSON.stringify(values);
-        result.push(obj)
-    }
-})
+            //  console.log("e", e, "index", index)
+              if(e) {
+                   KeyPair = e.split(":");
 
-console.log(result);
+                  if (KeyPair[0].includes("values=")) {
+                     if(KeyPair[0].split("values=")[1]) {
+                         let innerKey = KeyPair[0].split("values=")[1];
+                          innerObj[innerKey] = KeyPair[1];
+                       //   console.log("innerKey", innerKey)
+                          if(innerKey === 'param_name') {
+                              values.push(innerObj);
+                              innerObj = {};
+                          }
+                     }
+
+                  } else {
+                      obj[KeyPair[0]] = KeyPair[1];
+                  }
+
+              }
+
+          })
+      }
+      if(values.length > 0 || Object.keys(obj).length > 0) {
+          obj['values'] = JSON.stringify(values);
+          result.push(obj)
+      }
+  })
+
+  console.log(result);
 {% endcomment %}
 <vue-app data-vue="ProductFilter">
   <div
@@ -98,7 +98,7 @@ console.log(result);
     data-product-tags="{{ productTags  }}"
     data-product-info="{{ controllers  }}"
     class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
-  >
+  >  
     <div class="facets small-hide">
       <form
         class="{% if filter_type == 'horizontal' %}facets__form{% else %}facets__form-vertical{% endif %}"
@@ -118,8 +118,8 @@ console.log(result);
 
           {% comment %} <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> {% endcomment %}
           {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
-
-          <div v-for="(filter, index) in prductFilters" :key="index">
+        
+          <div v-for="(filter, index) in productFilters" :key="index">
             {% liquid
               assign total_active_values = total_active_values | plus: filter.active_values.size
               assign presentation = filter.presentation | default: default_presentation
@@ -136,158 +136,170 @@ console.log(result);
             <div v-switch="filter.type">
               <div v-case="list">
                 <div v-if="index !== 1">
-                <details
-                  id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
-                  class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-                  data-index="index"
-                  {% if filter_type == 'vertical' %}
-                    open
-                  {% endif %}
-                >
-                  <summary
-                    class="facets__summary caption-large focus-offset"
-                    aria-label="filter.label ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+                  <details
+                    id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
+                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
+                    data-index="index"
+                    {% if filter_type == 'vertical' %}
+                      open
+                    {% endif %}
                   >
-                    <div>
-                      <span class="facets__summary-label">
-                        <label>${filter.label}</label>
-                        {%- if filter_type == 'vertical' -%}
-                          <span class="facets__selected" :class="[filter.active_values.size == 0 ? hidden : '']">
-                            (${ filter.active_values.size })</span
-                          >
-                        {%- endif -%}
-                      </span>
-                      {%- if filter_type == 'vertical' and filter.operator == 'AND' -%}
-                        <span class="facets__and-helptext">
-                          {{ 'products.facets.filter_and_operator_subtitle' | t }}
-                        </span>
-                      {%- endif -%}
-                      {% render 'icon-caret' %}
-                    </div>
-                  </summary>
-                  <div
-                    id="Facet-${ index }-{{ section.id }}"
-                    class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
-                  >
-                    {%- if filter_type != 'vertical' -%}
-                      <div class="facets__header">
-                        <div>
-                          <span class="facets__selected">
-                            {% comment %} {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}} {% endcomment %}
-                            <label>${filter.active_values.length} Selected</label>
-                          </span>
-                          {%- if filter.operator == 'AND' -%}
-                            <span class="facets__and-helptext">
-                              {{ 'products.facets.filter_and_operator_subtitle' | t }}
-                            </span>
+                    <summary
+                      class="facets__summary caption-large focus-offset"
+                      aria-label="filter.label ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
+                    >
+                      <div>
+                        <span class="facets__summary-label">
+                          <label>${filter.label}</label>
+                          {%- if filter_type == 'vertical' -%}
+                            <span class="facets__selected" :class="[filter.active_values.size == 0 ? hidden : '']">
+                              (${ filter.active_values.size })</span
+                            >
                           {%- endif -%}
-                        </div>
-                        <facet-remove>
-                          <a href="filter.url_to_remove " class="facets__reset link underlined-link">
-                            {{ 'products.facets.reset' | t }} 
-                          </a>
-                        </facet-remove>
+                        </span>
+                        {%- if filter_type == 'vertical' and filter.operator == 'AND' -%}
+                          <span class="facets__and-helptext">
+                            {{ 'products.facets.filter_and_operator_subtitle' | t }}
+                          </span>
+                        {%- endif -%}
+                        {% render 'icon-caret' %}
                       </div>
-                    {%- endif -%}
-                    <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                      <legend class="visually-hidden"><label>${filter.label}</label></legend>
-                      <span :set="sorted_values = filter.values"></span>
-                      {% comment %} <span v-if="filter.operator == 'OR'"> test123 </span> {% endcomment %}
-
-                      {% comment %}
-                        {%- liquid
-                          assign sorted_values = filter.values
-                          # Keep the selected values grouped together when operator is AND
-                          if filter.operator == 'AND'
-                            assign active_filter_values = filter.values | where: 'active', true
-                            assign inactive_filter_values = filter.values | where: 'active', false
-                            assign sorted_values = active_filter_values | concat: inactive_filter_values
-                          endif
-                        -%}
-                      {% endcomment %}
-
-                      <ul
-                        class=" list-unstyled"
-                        role="list"
-                      >
-                        <div v-for="(value, index) in filter.values">
-                          {% comment %} template variable declaration  {% endcomment %}
-                          <span :set="input_id = 'Filter-' + filter.param_name + '-' + index"> </span>
-                          <span :set="is_disabled = false">
-                            <span v-if="value.count == 0 && value.active == 'false'">
-                              <span :set="is_disabled = true"></span>
+                    </summary>
+                    <div
+                      id="Facet-${ index }-{{ section.id }}"
+                      class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
+                    >
+                      {%- if filter_type != 'vertical' -%}
+                        <div class="facets__header">
+                          <div>
+                            <span class="facets__selected">
+                              {% comment %} {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}} {% endcomment %}
+                              <label>${filter.active_values.length} Selected</label>
                             </span>
-                           
-                          </span>
-                          <span :set="label_class = ''">
-                            <span v-if="is_disabled">
-                              <span :set="label_class = label_class + ' disabled'"></span>
-                            </span>
-                            <span v-else="value.active">
-                              <span :set="label_class = label_class + ' active'"></span>
-                            </span>
-                          </span>
-                          <span :set="text_value_class = 'list-menu__item facets__item'">
-                            <span v-if="index > {{show_more_number}} && {{filter_type}} == 'vertical'">
-                              <span :set="text_value_class = text_value_class + ' show-more-item hidden'"></span>
-                            </span>
-                          </span>
-
-                          <li class="text_value_class">
-                            {%- if presentation == 'swatch' -%}
-                              <div class="label_class">
-                                <div class="swatch-input-wrapper">
-                                  {% render 'swatch-input',
-                                    id: "input_id",
-                                    type: 'checkbox',
-                                    name: "value.param_name",
-                                    value: "value.value",
-                                    product_form_id: 'FacetFiltersForm',
-                                    swatch: "value.swatch",
-                                    checked: "value.active",
-                                    disabled: "is_disabled"
-                                  %}
-                                </div>
-                                 ${ value.label } 
-                              </div>
-                            {%- else -%}
-                            
-                                <div class="flex items-center ps-4 rounded">
-                                  <input :id="input_id" type="checkbox" :name="value.param_name" :disabled="is_disabled" :model="value.active" class="w-5 h-5 text-blue-600 bg-gray-100 rounded focus:ring-blue-500">
-                                  <label for="input_id" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 ">${ value.label } (${value.count})</label>
-                                </div>
-                                  {%- if presentation == 'image' -%}
-                                    <div class="facets__image-wrapper">
-                                      <span v-if="value.image">
-                                        <img src="value.image" width='300' class='facets__image' height="300" alt="value.alt" />
-                                      </span>
-                                    </div>
-                                  {%- endif -%}
-
+                            {%- if filter.operator == 'AND' -%}
+                              <span class="facets__and-helptext">
+                                {{ 'products.facets.filter_and_operator_subtitle' | t }}
+                              </span>
                             {%- endif -%}
-                          </li>
-
+                          </div>
+                          <div>
+                            <a href="filter.url_to_remove " class="facets__reset link underlined-link">
+                              {{ 'products.facets.reset' | t }}
+                            </a>
+                          </div>
                         </div>
-                      </ul>
-                    </fieldset>
-                    <div v-if="filter.values.size > {{show_more_number}} && {{filter_type}} == 'vertical'">
-                      <show-more-button>
-                        <button
-                          class="button-show-more link underlined-link"
-                          id="Show-More-index-{{ section.id }}"
-                          type="button"
+                      {%- endif -%}
+                      <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
+                        <legend class="visually-hidden"><label>${filter.label}</label></legend>
+                        <span :set="sorted_values = filter.values"></span>
+                        {% comment %} <span v-if="filter.operator == 'OR'"> test123 </span> {% endcomment %}
+
+                        {% comment %}
+                          {%- liquid
+                            assign sorted_values = filter.values
+                            # Keep the selected values grouped together when operator is AND
+                            if filter.operator == 'AND'
+                              assign active_filter_values = filter.values | where: 'active', true
+                              assign inactive_filter_values = filter.values | where: 'active', false
+                              assign sorted_values = active_filter_values | concat: inactive_filter_values
+                            endif
+                          -%}
+                        {% endcomment %}
+
+                        <ul
+                          class=" list-unstyled"
+                          role="list"
                         >
-                          <span class="label-show-more label-text"
-                            ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t -}}
-                          </span>
-                          <span class="label-show-less label-text hidden"
-                            ><span aria-hidden="true">- </span>{{ 'products.facets.show_less' | t -}}
-                          </span>
-                        </button>
-                      </show-more-button>
+                          <div v-for="(value, index) in filter.values">
+                            {% comment %} template variable declaration  {% endcomment %}
+                            <span :set="input_id = 'Filter-' + filter.param_name + '-' + index"> </span>
+                            <span :set="is_disabled = false">
+                              <span v-if="value.count == 0 && value.active == 'false'">
+                                <span :set="is_disabled = true"></span>
+                              </span>
+                            </span>
+                            <span :set="label_class = ''">
+                              <span v-if="is_disabled">
+                                <span :set="label_class = label_class + ' disabled'"></span>
+                              </span>
+                              <span v-else="value.active">
+                                <span :set="label_class = label_class + ' active'"></span>
+                              </span>
+                            </span>
+                            <span :set="text_value_class = 'list-menu__item facets__item'">
+                              <span v-if="index > {{show_more_number}} && {{filter_type}} == 'vertical'">
+                                <span :set="text_value_class = text_value_class + ' show-more-item hidden'"></span>
+                              </span>
+                            </span>
+
+                            <li class="text_value_class">
+                              {%- if presentation == 'swatch' -%}
+                                <div class="label_class">
+                                  <div class="swatch-input-wrapper">
+                                    {% render 'swatch-input',
+                                      id: 'input_id',
+                                      type: 'checkbox',
+                                      name: 'value.param_name',
+                                      value: 'value.value',
+                                      product_form_id: 'FacetFiltersForm',
+                                      swatch: 'value.swatch',
+                                      checked: 'value.active',
+                                      disabled: 'is_disabled'
+                                    %}
+                                  </div>
+                                  ${ value.label }
+                                </div>
+                              {%- else -%}
+                                <div class="flex items-center ps-4 rounded">
+                                  <input
+                                    :id="input_id"
+                                    type="checkbox"
+                                    :name="value.param_name"
+                                    :disabled="is_disabled"
+                                    :model="value.active"
+                                    @change="updateProductList($event)"
+                                    class="w-5 h-5 text-blue-600 bg-gray-100 rounded focus:ring-blue-500"
+                                  >
+                                  <label for="input_id" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 "
+                                    >${ value.label } (${value.count})</label
+                                  >
+                                </div>
+                                {%- if presentation == 'image' -%}
+                                  <div class="facets__image-wrapper">
+                                    <span v-if="value.image">
+                                      <img
+                                        src="value.image"
+                                        width="300"
+                                        class="facets__image"
+                                        height="300"
+                                        alt="value.alt"
+                                      >
+                                    </span>
+                                  </div>
+                                {%- endif -%}
+                              {%- endif -%}
+                            </li>
+                          </div>
+                        </ul>
+                      </fieldset>
+                      <div v-if="filter.values.size > {{show_more_number}} && {{filter_type}} == 'vertical'">
+                        <div>
+                          <button
+                            class="button-show-more link underlined-link"
+                            id="Show-More-index-{{ section.id }}"
+                            type="button"
+                          >
+                            <span class="label-show-more label-text"
+                              ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t -}}
+                            </span>
+                            <span class="label-show-less label-text hidden"
+                              ><span aria-hidden="true">- </span>{{ 'products.facets.show_less' | t -}}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </details>
+                  </details>
                 </div>
               </div>
               <div v-case="price_range">
@@ -317,16 +329,16 @@ console.log(result);
                           {{- 'products.facets.max_price' | t: price: max_price_amount -}}
                         </span>
                         {%- if filter_type != 'vertical' -%}
-                          <facet-remove>
+                          <div>
                             <a href="filter.url_to_remove" class="facets__reset link underlined-link">
                               {{ 'products.facets.reset' | t }}
                             </a>
-                          </facet-remove>
+                          </div>
                         {%- endif -%}
                       </div>
-                      <price-range class="facets__price">
+                      <div class="facets__price">
                         {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
-                      </price-range>
+                      </div>
                     </div>
                   </details>
                 </div>

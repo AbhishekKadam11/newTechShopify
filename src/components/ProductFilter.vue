@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import AddToCart from './AddToCart.vue';
 export default {
 
@@ -10,12 +10,13 @@ export default {
   setup() {
 
     const rootElement = ref(null);
-    const prductFilters = ref([]);
+    const productFilters = ref([]);
 
     onMounted((data, target) => {
       if (rootElement.value) {
         try {
           let filterObj = rootElement.value.dataset.productInfo.substring(0, rootElement.value.dataset.productInfo.length - 1);
+          console.log("filterObj =>", filterObj);
           filterObj.split("start=").forEach((item, index) => {
             let obj = {}; let KeyPair = []; let values = []; let innerObj = {};
             if (item) {
@@ -41,20 +42,27 @@ export default {
             }
             if (values.length > 0 || Object.keys(obj).length > 0) {
               obj['values'] = values;
-              prductFilters.value.push(obj)
+              productFilters.value.push(obj)
             }
           });
-          console.log("prductFilters =>", prductFilters);
+          console.log("productFilters =>", productFilters);
         } catch (e) {
-          console.log("prductFilters e=>", e);
+          console.log("productFilters e=>", e);
           throw new Error("Unable to process product tags", e);
         }
       }
     });
 
+    const updateProductList = (value) => {
+      console.log('value', value)
+    };
+
+  
+
     return {
       rootElement,
-      prductFilters,
+      productFilters,
+      updateProductList,
     }
   }
 }
