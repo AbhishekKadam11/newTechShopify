@@ -8,6 +8,17 @@
         "color_scheme": "scheme-1"
       }
     },
+    "product-filter": {
+      "type": "product-filter",
+      "settings": {
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "product-grid": {
       "type": "product-collection-product-grid",
       "settings": {
@@ -31,6 +42,7 @@
   },
   "order": [
     "banner",
-    "product-grid"
+    "product-filter",
+    "product-grid",
   ]
 }
