@@ -1,18 +1,4 @@
 {% comment %}
-  Renders facets (filtering and sorting)
-
-  Accepts:
-  - results: {Object} Collection or Search object
-  - enable_filtering: {Boolean} Show filtering when true
-  - enable_sorting: {Boolean} Show sorting when true
-  - filter_type: {String} Type of filter
-  - paginate: {Object}
-
-  Usage:
-  {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true, filter_type: 'vertical', paginate: paginate %}
-{% endcomment %}
-
-{% comment %}
   {{ 'component-show-more.css' | asset_url | stylesheet_tag }}
   {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
   {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
@@ -31,7 +17,7 @@
   endif
 
   assign controllers = '' | split: ''
-  for operation in results.filters
+  for operation in collection.filters
     assign lableName = operation.label | prepend: 'start=label:' | append: ',' | split: ''
     assign typeName = operation.type | prepend: 'type:' | append: ',' | split: ''
     assign url_to_remove = operation.url_to_remove | prepend: 'url_to_remove:' | append: ',' | split: ''
