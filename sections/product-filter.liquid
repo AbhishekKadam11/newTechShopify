@@ -168,7 +168,7 @@
                             <div>
                               <span class="facets__selected">
                                 {% comment %} {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}} {% endcomment %}
-                                <label>${filter.active_values.length} Selected</label>
+                                <label>${JSON.parse(filter.active_values).length} Selected</label>
                               </span>
                               {%- if filter.operator == 'AND' -%}
                                 <span class="facets__and-helptext">
@@ -251,7 +251,7 @@
                                       :name="value.param_name"
                                       :disabled="is_disabled"
                                       :model="value.active"
-                                      @change="updateProductList($event)"
+                                      @change="updateProductList(value)"
                                       class="w-5 h-5 text-blue-600 bg-gray-100 rounded focus:ring-blue-500"
                                     >
                                     <label for="input_id" class="w-full py-4 ms-2 text-lg font-medium text-gray-900 "

@@ -1,10 +1,9 @@
 <script>
-import { onMounted, ref, watch } from 'vue';
-import AddToCart from './AddToCart.vue';
+import { onMounted, ref } from 'vue';
+import { apiService } from '@/scripts/utils/api-service';
 export default {
 
   components: {
-    AddToCart
   },
 
   setup() {
@@ -53,11 +52,13 @@ export default {
       }
     });
 
+
     const updateProductList = (value) => {
       console.log('value', value)
+      const url = `${window.location.pathname}?${value.param_name}`;
+      const config = {method: 'GET', url}
+      const result = apiService(url);
     };
-
-  
 
     return {
       rootElement,
