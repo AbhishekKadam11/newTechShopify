@@ -33,7 +33,7 @@ jobs:
         run: |
           # echo ${{ github.workspace }}
           # ls
-          cd ./newTechFrontend
+          cd ./newTechFrontend/newTechFrontend
           ls
           # cd ..
           # cp ./newTechFrontend/shopify.theme.toml ../../
