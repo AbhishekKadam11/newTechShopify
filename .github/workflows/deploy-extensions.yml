@@ -31,12 +31,12 @@ jobs:
           token: ${{ secrets.ENV_PRIVATE_ACCESS_TOKEN }}
       - name: Copy file to current repository
         run: |
-          echo ${{ github.workspace }}
+          # echo ${{ github.workspace }}
+          # ls
+          cd ./newTechFrontend
           ls
-          cd newTechFrontend
-          ls
-          cd ..
-          cp ./newTechFrontend/shopify.theme.toml ../../
+          # cd ..
+          # cp ./newTechFrontend/shopify.theme.toml ../../
           cd ..
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v3
