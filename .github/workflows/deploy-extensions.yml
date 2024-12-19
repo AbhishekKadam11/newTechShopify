@@ -36,9 +36,9 @@ jobs:
           cd ./newTechFrontend/newTechFrontend
           # ls
           # cd ..
-          cp ./shopify.theme.toml ../../../
+          cp ./shopify.theme.toml ../../
           ls
-          cd ../../../
+          cd ../../
           ls
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v3
