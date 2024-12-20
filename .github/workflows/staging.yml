@@ -11,6 +11,8 @@ jobs:
     steps:
       # basically git clone
       - uses: actions/checkout@v2
+      # setup python
+      - uses: actions/setup-python@v3
       # deploy shopify theme
       - uses: pgrimaud/action-shopify@2.1.3
         env:
