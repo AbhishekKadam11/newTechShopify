@@ -2,7 +2,7 @@ name: Deploy app
 on:
   push:
     branches:
-      - main
+      -'' # - main
 env:
   SOURCE_REPO: AbhishekKadam11/shopifyEnv
   SOURCE_BRANCH: main

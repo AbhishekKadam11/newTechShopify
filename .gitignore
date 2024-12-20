@@ -11,6 +11,7 @@ node_modules
 # ignore all files inside shopify/assets/ except files with 'static' keyword in their filename
 /assets
 /snippets/vite.liquid
+.env
 
 # Shopify CLI
 shopify.theme.toml
