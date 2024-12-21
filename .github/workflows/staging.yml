@@ -12,6 +12,10 @@ jobs:
     steps:
       # basically git clone
       - uses: actions/checkout@v3
+      - name: echo env var
+        run: |
+           echo ${{ secrets.SHOPIFY_STORE_URL }}
+           echo ${{ secrets.SHOPIFY_THEME_ID }}
       # deploy shopify theme
       - uses: pgrimaud/action-shopify@2.2.2
         env:
