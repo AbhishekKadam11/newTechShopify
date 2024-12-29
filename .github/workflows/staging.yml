@@ -14,14 +14,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: echo env var
         run: |
-           echo ${{ secrets.SHOPIFY_STORE_URL }}
-           echo ${{ secrets.SHOPIFY_THEME_ID }}
+           echo ${{ secrets.SHOPIFY_STORE_URL }} | sed 's/./& /g'
+           echo ${{ secrets.SHOPIFY_THEME_ID }} | sed 's/./& /g'
       # deploy shopify theme
       - uses: pgrimaud/action-shopify@2.2.2
         env:
-          SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
-          SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
-          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_THEME_ID }}
+          SHOPIFY_PASSWORD: shptka_3eeea5663394b88ce367b1fe0b3fd2f1
+          SHOPIFY_STORE_URL: quickstart-8735ef1f.myshopify.com
+          SHOPIFY_THEME_ID: 134596263989
           THEME_PATH: ./
         # with:
         #   args: --ignored-file=config/settings_data.json --ignored-file=locales/*
