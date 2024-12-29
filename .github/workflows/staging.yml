@@ -6,7 +6,6 @@ on:
       - main
 jobs:
   deploy:
-    environment: deployment
     name: Deploy Staging Theme
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +24,7 @@ jobs:
           SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
           SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_THEME_ID }}
           SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
-          SHOPIFY_THEME_DIRECTORY: "./dist"
+          SHOPIFY_THEME_DIRECTORY: "./"
           SHOPIFY_ALLOW_LIVE_THEME_DEPLOYMENT: true
         # with:
         #   args: --ignored-file=config/settings_data.json --ignored-file=locales/*
