@@ -6,6 +6,7 @@ on:
       - main
 jobs:
   deploy:
+    environment: deployment
     name: Deploy Staging Theme
     runs-on: ubuntu-latest
     steps:
