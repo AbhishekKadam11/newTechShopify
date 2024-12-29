@@ -17,11 +17,15 @@ jobs:
            echo ${{ secrets.SHOPIFY_STORE_URL }} | sed 's/./& /g'
            echo ${{ secrets.SHOPIFY_THEME_ID }} | sed 's/./& /g'
       # deploy shopify theme
-      - uses: pgrimaud/action-shopify@2.2.2
-        env:
-          SHOPIFY_PASSWORD: shptka_3eeea5663394b88ce367b1fe0b3fd2f1
-          SHOPIFY_STORE_URL: quickstart-8735ef1f.myshopify.com
-          SHOPIFY_THEME_ID: 134596263989
-          THEME_PATH: ./
+      - name: Shopify Theme Actions
+        uses: matthew-petrie/shopify-theme-actions@1.2.2
+        with:
+          ACTION: "DEPLOY"
+          SHOPIFY_PASSWORD: ${{ secrets.SHOPIFY_PASSWORD }}
+          SHOPIFY_STORE_URL: ${{ secrets.SHOPIFY_STORE_URL }}
+          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_THEME_ID }}
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
+          SHOPIFY_THEME_DIRECTORY: "./dist"
+          SHOPIFY_ALLOW_LIVE_THEME_DEPLOYMENT: true
         # with:
         #   args: --ignored-file=config/settings_data.json --ignored-file=locales/*
