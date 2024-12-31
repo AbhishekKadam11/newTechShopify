@@ -25,7 +25,7 @@ jobs:
           SHOPIFY_STORE_URL: quickstart-8735ef1f.myshopify.com
           SHOPIFY_THEME_ID: 134596263989
           SHOPIFY_API_KEY: 5997eeadcc624e599895ed29528dc33b
-          SHOPIFY_THEME_DIRECTORY: "./"
+          SHOPIFY_THEME_DIRECTORY: "/home/runner/work/newTechShopify/newTechShopify"
           SHOPIFY_ALLOW_LIVE_THEME_DEPLOYMENT: true
         # with:
         #   args: --ignored-file=config/settings_data.json --ignored-file=locales/*
