@@ -21,10 +21,10 @@ jobs:
         uses: matthew-petrie/shopify-theme-actions@1.2.2
         with:
           ACTION: "DEPLOY"
-          SHOPIFY_PASSWORD: shptka_3eeea5663394b88ce367b1fe0b3fd2f1
-          SHOPIFY_STORE_URL: quickstart-8735ef1f.myshopify.com
-          SHOPIFY_THEME_ID: 134596263989
-          SHOPIFY_API_KEY: 5997eeadcc624e599895ed29528dc33b
+          SHOPIFY_PASSWORD: "shptka_3eeea5663394b88ce367b1fe0b3fd2f1"
+          SHOPIFY_STORE_URL: "quickstart-8735ef1f.myshopify.com"
+          SHOPIFY_THEME_ID: "134596263989"
+          SHOPIFY_API_KEY: "5997eeadcc624e599895ed29528dc33b"
           SHOPIFY_THEME_DIRECTORY: "/home/runner/work/newTechShopify/newTechShopify"
           SHOPIFY_ALLOW_LIVE_THEME_DEPLOYMENT: true
         # with:
