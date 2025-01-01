@@ -6,6 +6,7 @@ on:
       - main
 jobs:
   deploy:
+    environment: deployment
     name: Deploy
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +22,6 @@ jobs:
         run: |
           shopify theme push \
             --json \
-            --theme newTech \
+            --theme ${{ secrets.SHOPIFY_THEME_ID }} \
             --store ${{ secrets.SHOPIFY_STORE_URL }} \
             --password ${{ secrets.SHOPIFY_PASSWORD }}
