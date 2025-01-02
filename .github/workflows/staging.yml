@@ -21,6 +21,7 @@ jobs:
       - name: Upload theme
         run: |
           shopify theme push \
+            --force \
             --json \
             --theme ${{ secrets.SHOPIFY_THEME_ID }} \
             --store ${{ secrets.SHOPIFY_STORE_URL }} \
