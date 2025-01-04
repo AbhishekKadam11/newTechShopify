@@ -20,7 +20,7 @@ jobs:
 
       - name: Pull JSON files from live theme
         env:
-          SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URLSHOPIFY_STORE_URL }}'
+          SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_PASSWORD }}
           SHOPIFY_CLI_TTY: 0
           SHOPIFY_FLAG_FORCE: 1
