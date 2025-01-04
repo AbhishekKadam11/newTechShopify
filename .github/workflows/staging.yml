@@ -16,7 +16,7 @@ jobs:
           node-version: 18
 
       - name: Install Shopify CLI
-        run: npm install -g @shopify/cli
+        run: npm install -g @shopify/cli@3.66.1 @shopify/theme
 
       - name: Pull JSON files from live theme
         env:
