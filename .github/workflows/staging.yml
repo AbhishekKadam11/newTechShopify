@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout repo 
         uses: actions/checkout@v2
+
       - uses: actions/setup-node@v3
         with:
           node-version: 22
@@ -56,4 +57,5 @@ jobs:
             --json \
             --theme ${{ secrets.SHOPIFY_THEME_ID }} \
             --store ${{ secrets.SHOPIFY_STORE_URL }} \
-            --password ${{ secrets.SHOPIFY_PASSWORD }}
+            --password ${{ secrets.SHOPIFY_PASSWORD }} \
+            --allow-live 
