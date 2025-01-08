@@ -46,6 +46,9 @@ jobs:
           # Clean up
           rm -rf temp_json
 
+      - name: Install vite
+        run: npm install vite 
+      
       - name: Run vite build
         run: npm run vite:build 
 
