@@ -46,6 +46,9 @@ jobs:
           # Clean up
           rm -rf temp_json
 
+      - name: Run vite build
+        run: npm run vite:build 
+
       - name: Upload theme
         env:
           SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
@@ -58,4 +61,5 @@ jobs:
             --theme ${{ secrets.SHOPIFY_THEME_ID }} \
             --store ${{ secrets.SHOPIFY_STORE_URL }} \
             --password ${{ secrets.SHOPIFY_PASSWORD }} \
-            --allow-live 
+            --unpublished
+            --name 08-01-2025
