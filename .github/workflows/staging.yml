@@ -65,4 +65,3 @@ jobs:
             --store ${{ secrets.SHOPIFY_STORE_URL }} \
             --password ${{ secrets.SHOPIFY_PASSWORD }} \
             --unpublished
-            --name 08-01-2025
