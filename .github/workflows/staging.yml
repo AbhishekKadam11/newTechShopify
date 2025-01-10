@@ -23,28 +23,28 @@ jobs:
       - name: Install gem bundler
         run: sudo gem install bundler
 
-      - name: Pull JSON files from live theme
-        env:
-          SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
-          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_PASSWORD }}
-          SHOPIFY_CLI_TTY: 0
-          SHOPIFY_FLAG_FORCE: 1
-        run: |
-          # Create a temporary directory for JSON files
-          mkdir temp_json
-          # Pull all JSON files to the temporary directory
-          shopify theme pull --theme=${{ secrets.SHOPIFY_THEME_ID }} --only '*.json' --path temp_json
-          # Compare and copy newer files
-          for file in temp_json/**/*.json; do
-            rel_path=${file#temp_json/}
-            if [ ! -f "$rel_path" ] || [ "$file" -nt "$rel_path" ]; then
-              mkdir -p $(dirname "$rel_path")
-              cp "$file" "$rel_path"
-              echo "Updated: $rel_path"
-            fi
-          done
-          # Clean up
-          rm -rf temp_json
+      # - name: Pull JSON files from live theme
+      #   env:
+      #     SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
+      #     SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_PASSWORD }}
+      #     SHOPIFY_CLI_TTY: 0
+      #     SHOPIFY_FLAG_FORCE: 1
+      #   run: |
+      #     # Create a temporary directory for JSON files
+      #     mkdir temp_json
+      #     # Pull all JSON files to the temporary directory
+      #     shopify theme pull --theme=${{ secrets.SHOPIFY_THEME_ID }} --only '*.json' --path temp_json
+      #     # Compare and copy newer files
+      #     for file in temp_json/**/*.json; do
+      #       rel_path=${file#temp_json/}
+      #       if [ ! -f "$rel_path" ] || [ "$file" -nt "$rel_path" ]; then
+      #         mkdir -p $(dirname "$rel_path")
+      #         cp "$file" "$rel_path"
+      #         echo "Updated: $rel_path"
+      #       fi
+      #     done
+      #     # Clean up
+      #     rm -rf temp_json
 
       - name: Install vite
         run: npm install vite 
