@@ -48,6 +48,7 @@ class FacetFiltersForm extends HTMLElement {
 
     sections.forEach((section) => {
       const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
+      console.log('facets url', url)
       const filterDataUrl = (element) => element.url === url;
 
       FacetFiltersForm.filterData.some(filterDataUrl)
@@ -331,7 +332,7 @@ class PriceRange extends HTMLElement {
     if (maxInput.value === '') minInput.setAttribute('data-max', maxInput.getAttribute('data-max'));
   }
 
-  adjustToValidValues(input) {
+ adjustToValidValues(input) {
     const value = Number(input.value);
     const min = Number(input.getAttribute('data-min'));
     const max = Number(input.getAttribute('data-max'));

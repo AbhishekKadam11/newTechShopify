@@ -1,9 +1,22 @@
 name: Deploy Staging Theme
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      langSelection:
+        type: choice
+        description: 'Language Selecion'     
+        required: true
+        default: 'en'
+        options: 
+        - en
+        - de
+        - jp
+      tags:
+        description: 'Test release tags'
+env:
+  STORE_SELECTED: ''
+
 jobs:
   deploy:
     environment: deployment
@@ -17,6 +30,13 @@ jobs:
         with:
           node-version: 22
 
+      - if: github.event.inputs.langSelection == 'de'
+        name: Copy templates and language locals
+        run: |
+          echo "STORE_SELECTED=${{github.event.inputs.langSelection}}" >> $GITHUB_ENV
+          echo " STORE_SELECTED "
+          cp -r ./deployment/${{github.event.inputs.langSelection}}/locals/* ./locals
+          cp -r ./deployment/${{github.event.inputs.langSelection}}/templates/* ./templates
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli@3.66.1 @shopify/theme 
 
@@ -46,22 +66,22 @@ jobs:
       #     # Clean up
       #     rm -rf temp_json
 
-      # - name: Install vite
-      #   run: npm install vite 
+      - name: Install vite
+        run: npm install vite 
       
-      # - name: Run vite build
-      #   run: npm run vite:build 
+      - name: Run vite build
+        run: npm run vite:build 
 
-      # - name: Upload theme
-      #   env:
-      #     SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
-      #     SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_PASSWORD }}
-      #     SHOPIFY_CLI_TTY: 0
-      #     SHOPIFY_FLAG_FORCE: 1
-      #   run: |
-      #     shopify theme push \
-      #       --json \
-      #       --theme ${{ secrets.SHOPIFY_THEME_ID }} \
-      #       --store ${{ secrets.SHOPIFY_STORE_URL }} \
-      #       --password ${{ secrets.SHOPIFY_PASSWORD }} \
-      #       --unpublished
+      - name: Upload theme
+        env:
+          SHOPIFY_FLAG_STORE: '${{ secrets.SHOPIFY_STORE_URL }}'
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_PASSWORD }}
+          SHOPIFY_CLI_TTY: 0
+          SHOPIFY_FLAG_FORCE: 1
+        run: |
+          shopify theme push \
+            --json \
+            --theme ${{ secrets.SHOPIFY_THEME_ID }} \
+            --store ${{ secrets.SHOPIFY_STORE_URL }} \
+            --password ${{ secrets.SHOPIFY_PASSWORD }} \
+            --unpublished
