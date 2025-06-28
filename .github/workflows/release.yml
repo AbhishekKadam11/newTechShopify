@@ -1,4 +1,4 @@
-name: Deploy Staging Theme
+name: Deploy Country Specific Theme
 
 on:
   workflow_dispatch:
@@ -33,10 +33,13 @@ jobs:
       - if: github.event.inputs.langSelection == 'de'
         name: Copy templates and language locals
         run: |
+          echo ${{ github.workspace }}
           echo "STORE_SELECTED=${{github.event.inputs.langSelection}}" >> $GITHUB_ENV
           echo " STORE_SELECTED "
           cp -r ./deployment/${{github.event.inputs.langSelection}}/locals/* ./locals
           cp -r ./deployment/${{github.event.inputs.langSelection}}/templates/* ./templates
+          ls
+
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli@3.66.1 @shopify/theme 
 
